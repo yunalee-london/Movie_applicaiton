@@ -11,7 +11,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2">
+        android:layout_weight="3">
         <ImageView
             android:id="@+id/lalaland"
             android:layout_width="match_parent"
@@ -35,10 +35,10 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_above="@id/subtitle"
-            android:textSize="48sp"
+            android:textSize="36sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/white"
-            android:padding="10dp"
+            android:paddingHorizontal ="10dp"
             android:text="LaLa Land!"/>
     </RelativeLayout>
 
@@ -54,17 +54,17 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/black"
-            android:padding="20dp"
+            android:padding="10dp"
             android:layout_weight="0"
             android:text="SYNOPSIS"/>
         <TextView
             android:id="@+id/synopsis"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="12sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/black"
             android:padding="10dp"
@@ -76,10 +76,10 @@
             android:id="@+id/release"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/black"
-            android:padding="20dp"
+            android:padding="10dp"
             android:layout_weight="0"
             android:text="Release Date: 13 Jan 2017"/>
         <TextView
@@ -88,10 +88,10 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/black"
-            android:padding="20dp"
+            android:padding="10dp"
             android:layout_weight="0"
             android:text="CAST | CREW"/>
     </LinearLayout>
@@ -100,7 +100,7 @@
         android:id="@+id/l3"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="2"
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/directorpic"
@@ -142,7 +142,7 @@
             android:gravity="center"
             android:textSize="12sp"
             android:fontFamily="sans-serif-light"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:text="Damien Chazelle Director|Writer"/>
@@ -158,7 +158,7 @@
             android:padding="10dp"
             android:layout_margin="10dp"
             android:text="Emma Stone as Mia"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
         <TextView
@@ -170,7 +170,7 @@
             android:gravity="center"
             android:textSize="12sp"
             android:fontFamily="sans-serif-light"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:padding="10dp"
             android:layout_margin="10dp"
             android:text="Ryan Gosling as Sebastian"/>
