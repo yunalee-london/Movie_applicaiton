@@ -1,21 +1,21 @@
+package com.example.movieratingapplication;
+
 import java.time.*;
 import java.util.*;
 
 class DateCalculation {
 
     // Function to print difference in
-    static void findDifference(LocalDate rel_date, LocalDate today)
+    static String findDifference(LocalDate rel_date, LocalDate today)
     {
         if (rel_date.isBefore(today)) {
             Period diff = Period.between(rel_date, today);
-            System.out.printf("Released %d years, %d months, %d days ago.",
-                    diff.getYears(), diff.getMonths(), diff.getDays());
+            return "Released " + diff.getYears() + "years, " + diff.getMonths() + "months, " + diff.getDays() + "days ago.";
+
         } else {
             Period diff = Period.between(today, rel_date);
-            System.out.printf("Release Date: %d years, %d months, %d days left",
-                    diff.getYears(), diff.getMonths(), diff.getDays());
+            return "Release date:  " + diff.getYears() + "years, " + diff.getMonths() + "months, " + diff.getDays() + "days ago.";
         }
-        Period diff = Period.between(rel_date, today);
     }
 
     // Driver Code

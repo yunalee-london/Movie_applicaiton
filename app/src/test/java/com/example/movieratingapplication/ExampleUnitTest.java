@@ -2,6 +2,8 @@ package com.example.movieratingapplication;
 
 import org.junit.Test;
 
+import java.time.LocalDate;
+
 import static org.junit.Assert.*;
 
 /**
@@ -14,4 +16,14 @@ public class ExampleUnitTest {
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);
     }
+
+    @Test
+    public void test_timedifference() {
+        LocalDate today = LocalDate.now();
+        LocalDate tomorrow = LocalDate.of(2020,11,19);
+        String result = DateCalculation.findDifference(today, tomorrow);
+        String expected = "Release Date: 1 day left.";
+        assertEquals(expected, result);
+    }
+
 }
