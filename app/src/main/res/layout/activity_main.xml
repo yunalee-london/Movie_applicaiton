@@ -28,7 +28,7 @@
             android:textSize="12sp"
             android:textColor="@color/white"
             android:padding="10dp"
-            android:text="Emma Stone, Ryan Gosling, USA, 2016"/>
+            android:text="Emma Stone &amp; Ryan Gosling, USA, 2016"/>
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -59,6 +59,7 @@
             android:textColor="@color/black"
             android:padding="10dp"
             android:layout_weight="0"
+            android:textStyle="bold"
             android:text="SYNOPSIS"/>
         <TextView
             android:id="@+id/synopsis"
@@ -93,7 +94,8 @@
             android:textColor="@color/black"
             android:padding="10dp"
             android:layout_weight="0"
-            android:text="CAST | CREW"/>
+            android:textStyle="bold"
+            android:text="CAST &amp; CREW"/>
     </LinearLayout>
 
     <LinearLayout
@@ -108,7 +110,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/damian" />
         <ImageView
             android:id="@+id/emmapic"
@@ -116,7 +120,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/emmastone" />
         <ImageView
             android:id="@+id/ryanpic"
@@ -124,7 +130,9 @@
             android:layout_weight="1"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-            android:layout_margin="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:src="@drawable/ryan" />
     </LinearLayout>
     <LinearLayout
@@ -145,7 +153,7 @@
             android:textColor="@color/black"
             android:padding="10dp"
             android:layout_margin="10dp"
-            android:text="Damien Chazelle Director|Writer"/>
+            android:text="Damien Chazelle \nDirector&amp;Writer"/>
 
         <TextView
             android:id="@+id/Emma"
@@ -157,7 +165,7 @@
             android:fontFamily="sans-serif-light"
             android:padding="10dp"
             android:layout_margin="10dp"
-            android:text="Emma Stone as Mia"
+            android:text="Emma Stone \n Mia"
             android:textColor="@color/black"
             android:textSize="12sp" />
 
@@ -173,6 +181,6 @@
             android:textColor="@color/black"
             android:padding="10dp"
             android:layout_margin="10dp"
-            android:text="Ryan Gosling as Sebastian"/>
+            android:text="Ryan Gosling \n Sebastian"/>
     </LinearLayout>
 </LinearLayout>
