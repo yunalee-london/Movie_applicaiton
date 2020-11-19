@@ -74,15 +74,25 @@
             android:gravity="center_vertical"
             android:text="While navigating their careers in Los Angeles, a pianist and an actress fall in love while attempting to reconcile their aspirations for the future."/>
         <TextView
+            android:id="@+id/releasedate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif-light"
+            android:textColor="@color/black"
+            android:paddingLeft="10dp"
+            android:layout_weight="0"
+            android:text="Release Date: 13 Jan 2017"/>
+        <TextView
             android:id="@+id/release"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="18sp"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/black"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
             android:layout_weight="0"
-            android:text="Release Date: 13 Jan 2017"/>
+            />
         <TextView
             android:id="@+id/cast_crew"
             android:layout_width="wrap_content"
