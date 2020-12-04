@@ -29,28 +29,16 @@ public class QueryUtils {
     private QueryUtils() {
     }
 
-    private void updateUi(Film film) {
-        TextView titleTextView = titleTextView.findViewById();
-        titleTextView.setText(film.getTitle());
-
-        TextView synopTextView = synopTextView.findViewById(R.id.synopsis);
-        synopTextView.setText(film.getSynopsis());
-
-        TextView relDateTextView = relDateTextView.findViewById(R.id.releasedate);
-        relDateTextView.setText(film.getRelease());
-
-        TextView dirTextView = dirTextView.findViewById(R.id.director);
-        dirTextView.setText(film.getDir());
-
-        TextView mainTextView = mainTextView.findViewById(R.id.main);
-        mainTextView.setText(film.getMain());
-
-        TextView supportTextView = supportTextView.findViewById(R.id.support);
-        supportTextView.setText(film.getSupport());
+    public interface FilmProcessor {
+        public void processFilms (Film film);
     }
 
     static class FilmAsyncTask extends AsyncTask<URL, Void, Film> {
+        public FilmProcessor filmProcessor;
 
+        public FilmAsyncTask (FilmProcessor processor) {
+            this.filmProcessor = processor;
+        }
         @Override
         protected Film doInBackground(URL... urls) {
             // Create URL object
@@ -65,10 +53,10 @@ public class QueryUtils {
             }
 
             // Extract relevant fields from the JSON response and create an {@link Film} object
-            List<Film> films = extractFeatureFromJson(jsonResponse);
+            Film film = (Film) extractFeatureFromJson(jsonResponse);
 
             // Return the {@link Film} object as the result fo the {@link FilmAsyncTask}
-            return films;
+            return film;
         }
 
         @Override
@@ -77,9 +65,8 @@ public class QueryUtils {
                 return;
             }
 
-            updateUi(film);
+            filmProcessor.processFilms(film);
         }
-
 
         private static URL createUrl() {
             URL url = null;
@@ -179,7 +166,7 @@ public class QueryUtils {
 
                     String country = currentFilm.getString("country");
 
-                    long year = currentFilm.getLong("Year");
+                    long year = currentFilm.getLong("year");
 
                     String synopsis = currentFilm.getString("synopsis");
 

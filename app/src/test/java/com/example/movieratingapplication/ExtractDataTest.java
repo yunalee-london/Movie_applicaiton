@@ -1,4 +1,4 @@
 package com.example.movieratingapplication;
 
-public class FetchingDataTest {
+public class ExtractDataTest {
 }

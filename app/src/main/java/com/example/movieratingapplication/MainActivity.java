@@ -33,14 +33,44 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
 
+    class FilmInterface implements FilmProcessor {
+
+        @Override
+        public void processFilms(Film film) {
+            updateUi(film);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FilmAsyncTask task = new FilmAsyncTask();
+        FilmInterface filmInterface = new FilmInterface();
+        FilmAsyncTask task = new FilmAsyncTask(filmInterface);
         task.execute();
     }
+
+    private void updateUi(Film film) {
+        TextView titleTextView = findViewById(R.id.title);
+        titleTextView.setText(film.getTitle());
+
+        TextView synopTextView = findViewById(R.id.synopsis);
+        synopTextView.setText(film.getSynopsis());
+
+        TextView relDateTextView = findViewById(R.id.releasedate);
+        relDateTextView.setText(film.getRelease());
+
+        TextView dirTextView = findViewById(R.id.director);
+        dirTextView.setText(film.getDir());
+
+        TextView mainTextView = findViewById(R.id.main);
+        mainTextView.setText(film.getMain());
+
+        TextView supportTextView = findViewById(R.id.support);
+        supportTextView.setText(film.getSupport());
+    }
+
+
 
 }
 
