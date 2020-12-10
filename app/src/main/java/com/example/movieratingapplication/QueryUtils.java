@@ -3,7 +3,6 @@ package com.example.movieratingapplication;
 import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Log;
-import android.widget.TextView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -16,7 +15,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +51,7 @@ public class QueryUtils {
             }
 
             // Extract relevant fields from the JSON response and create an {@link Film} object
-            Film film = (Film) extractFeatureFromJson(jsonResponse);
+            Film film = (Film) extractFeatureFromJson(jsonResponse).get(0);
 
             // Return the {@link Film} object as the result fo the {@link FilmAsyncTask}
             return film;
@@ -144,6 +142,7 @@ public class QueryUtils {
             // Create an empty ArrayList that we can start adding films to
             ArrayList<Film> films = new ArrayList<>();
 
+
             // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
             // is formatted, a JSONException exception object will be thrown.
             // Catch the exception so the app doesn't crash, and print the error message to the logs.
@@ -157,10 +156,9 @@ public class QueryUtils {
 
                 for (int i = 0; i < filmArray.length(); i++) {
 
-
                     JSONObject currentFilm = filmArray.getJSONObject(i);
 
-                    String title = currentFilm.getString("Title");
+                    String title = currentFilm.getString("title");
 
                     String imageUrl = currentFilm.getString("image");
 
@@ -183,8 +181,8 @@ public class QueryUtils {
 
                     Film film = new Film(title, imageUrl, country, year, synopsis, release, director, mainAct, supportAct);
 
-
                     films.add(film);
+
                 }
 
             } catch (JSONException e) {
@@ -195,6 +193,7 @@ public class QueryUtils {
             }
 
             // Return the list of films
+            Log.v("QueryUtils", "films: " + films);
             return films;
         }
 
