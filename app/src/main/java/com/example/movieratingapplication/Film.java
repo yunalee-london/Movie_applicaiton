@@ -1,7 +1,5 @@
 package com.example.movieratingapplication;
 
-import android.text.format.DateFormat;
-
 public class Film {
     private final String title;
     private final String image;
@@ -10,11 +8,14 @@ public class Film {
     private final String synopsis;
     private final String release;
     private final String dir;
+    private final String dirImage;
     private final String main;
+    private final String mainImage;
     private final String support;
+    private final String supportImage;
 
 
-    public Film(String filmTitle, String imageUrl, String relCountry, long relYear, String story, String relDate, String director, String mainAct, String supportAct){
+    public Film(String filmTitle, String imageUrl, String relCountry, long relYear, String story, String relDate, String director, String dirPhoto, String mainAct, String mainPhoto, String supportAct, String supportPhoto){
         title = filmTitle;
         image = imageUrl;
         country = relCountry;
@@ -22,8 +23,11 @@ public class Film {
         synopsis = story;
         release = relDate;
         dir = director;
+        dirImage = dirPhoto;
         main = mainAct;
+        mainImage = mainPhoto;
         support = supportAct;
+        supportImage = supportPhoto;
      }
     public String getTitle() {return title;}
     public String getImage() {return image;}
@@ -32,8 +36,11 @@ public class Film {
     public String getSynopsis() {return synopsis;}
     public String getRelease() {return release;}
     public String getDir() {return dir;}
+    public String getDirImage() {return dirImage;}
     public String getMain() {return main;}
+    public String getMainImage() {return mainImage;}
     public String getSupport() {return support;}
+    public String getSupportImage() {return supportImage;}
 
 
 }

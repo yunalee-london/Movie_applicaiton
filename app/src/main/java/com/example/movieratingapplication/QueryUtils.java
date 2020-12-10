@@ -131,7 +131,46 @@ public class QueryUtils {
             }
             return output.toString();
         }
+        public static Film parsingJsonObj (JSONObject currentFilm) {
 
+            try {
+                String title = currentFilm.getString("title");
+
+                String imageUrl = currentFilm.getString("image");
+
+                String country = currentFilm.getString("country");
+
+                long year = currentFilm.getLong("year");
+
+                String synopsis = currentFilm.getString("synopsis");
+
+                String release = currentFilm.getString("release");
+
+                JSONArray castCrew = currentFilm.getJSONArray("cast_crew");
+
+                String director = castCrew.getJSONObject(0).getString("director");
+
+                String dirImage = castCrew.getJSONObject(0).getString("dirImage");
+
+                String mainAct = castCrew.getJSONObject(0).getString("cast1");
+
+                String mainImage = castCrew.getJSONObject(0).getString("cast1Image");
+
+                String supportAct = castCrew.getJSONObject(0).getString("cast2");
+
+                String supportImage = castCrew.getJSONObject(0).getString("cast2Image");
+
+                Film film = new Film(title, imageUrl, country, year, synopsis, release, director, dirImage, mainAct, mainImage, supportAct, supportImage);
+
+                return film;
+
+
+            } catch (JSONException e) {
+                Log.e("QueryUtils", "Problem parsing the film JSON results", e);
+            }
+
+            return null;
+        }
 
         public static List<Film> extractFeatureFromJson(String filmJSON) {
 
@@ -158,28 +197,7 @@ public class QueryUtils {
 
                     JSONObject currentFilm = filmArray.getJSONObject(i);
 
-                    String title = currentFilm.getString("title");
-
-                    String imageUrl = currentFilm.getString("image");
-
-                    String country = currentFilm.getString("country");
-
-                    long year = currentFilm.getLong("year");
-
-                    String synopsis = currentFilm.getString("synopsis");
-
-                    String release = currentFilm.getString("release");
-
-                    JSONArray castCrew = currentFilm.getJSONArray("cast_crew");
-
-                    String director = castCrew.getJSONObject(0).getString("director");
-
-                    String mainAct = castCrew.getJSONObject(0).getString("cast1");
-
-                    String supportAct = castCrew.getJSONObject(0).getString("cast2");
-
-
-                    Film film = new Film(title, imageUrl, country, year, synopsis, release, director, mainAct, supportAct);
+                    Film film = parsingJsonObj(currentFilm);
 
                     films.add(film);
 
@@ -193,7 +211,7 @@ public class QueryUtils {
             }
 
             // Return the list of films
-            Log.v("QueryUtils", "films: " + films);
+            Log.v("------------------------------QueryUtils", "films: " + films);
             return films;
         }
 

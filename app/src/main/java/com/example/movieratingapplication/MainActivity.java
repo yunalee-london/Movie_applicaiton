@@ -1,29 +1,16 @@
 package com.example.movieratingapplication;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import androidx.appcompat.app.AppCompatActivity;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
+import com.squareup.picasso.Picasso;
 
-import static com.example.movieratingapplication.QueryUtils.*;
+import static com.example.movieratingapplication.QueryUtils.FilmAsyncTask;
+import static com.example.movieratingapplication.QueryUtils.FilmProcessor;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -58,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
         synopTextView.setText(film.getSynopsis());
 
         TextView relDateTextView = findViewById(R.id.releasedate);
-        relDateTextView.setText(film.getRelease());
+        relDateTextView.setText("Release Date: " + film.getRelease());
 
         TextView dirTextView = findViewById(R.id.director);
         dirTextView.setText(film.getDir());
@@ -68,6 +55,22 @@ public class MainActivity extends AppCompatActivity {
 
         TextView supportTextView = findViewById(R.id.support);
         supportTextView.setText(film.getSupport());
+
+        ImageView posterView = findViewById(R.id.imageUrl);
+        String imageUrl = film.getImage();
+        Picasso.get().load(imageUrl).into(posterView);
+
+        ImageView dirView = findViewById(R.id.dirImage);
+        String dirImageUrl = film.getDirImage();
+        Picasso.get().load(dirImageUrl).into(dirView);
+
+        ImageView mainView = findViewById(R.id.mainImage);
+        String mainImageUrl = film.getMainImage();
+        Picasso.get().load(mainImageUrl).into(mainView);
+
+        ImageView supportView = findViewById(R.id.supportImage);
+        String suppImageUrl = film.getSupportImage();
+        Picasso.get().load(suppImageUrl).into(supportView);
     }
 
 
