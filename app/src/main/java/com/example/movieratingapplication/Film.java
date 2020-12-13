@@ -4,7 +4,7 @@ public class Film {
     private final String title;
     private final String image;
     private final String country;
-    private final long year;
+    private final int year;
     private final String synopsis;
     private final String release;
     private final String dir;
@@ -15,7 +15,7 @@ public class Film {
     private final String supportImage;
 
 
-    public Film(String filmTitle, String imageUrl, String relCountry, long relYear, String story, String relDate, String director, String dirPhoto, String mainAct, String mainPhoto, String supportAct, String supportPhoto){
+    public Film(String filmTitle, String imageUrl, String relCountry, int relYear, String story, String relDate, String director, String dirPhoto, String mainAct, String mainPhoto, String supportAct, String supportPhoto){
         title = filmTitle;
         image = imageUrl;
         country = relCountry;
@@ -32,7 +32,7 @@ public class Film {
     public String getTitle() {return title;}
     public String getImage() {return image;}
     public String getCountry() {return country;}
-    public long getYear() {return year;}
+    public int getYear() {return year;}
     public String getSynopsis() {return synopsis;}
     public String getRelease() {return release;}
     public String getDir() {return dir;}

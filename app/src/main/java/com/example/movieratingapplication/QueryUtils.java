@@ -51,7 +51,7 @@ public class QueryUtils {
             }
 
             // Extract relevant fields from the JSON response and create an {@link Film} object
-            Film film = (Film) extractFeatureFromJson(jsonResponse).get(0);
+            Film film = (Film) extractFeatureFromJson(jsonResponse).get(3);
 
             // Return the {@link Film} object as the result fo the {@link FilmAsyncTask}
             return film;
@@ -140,7 +140,7 @@ public class QueryUtils {
 
                 String country = currentFilm.getString("country");
 
-                long year = currentFilm.getLong("year");
+                int year = currentFilm.getInt("year");
 
                 String synopsis = currentFilm.getString("synopsis");
 

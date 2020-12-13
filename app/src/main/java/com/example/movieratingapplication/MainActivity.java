@@ -1,7 +1,9 @@
 package com.example.movieratingapplication;
 
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,7 +15,7 @@ import static com.example.movieratingapplication.QueryUtils.FilmAsyncTask;
 import static com.example.movieratingapplication.QueryUtils.FilmProcessor;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity<clickListener> extends AppCompatActivity {
 
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -35,7 +37,36 @@ public class MainActivity extends AppCompatActivity {
         FilmInterface filmInterface = new FilmInterface();
         FilmAsyncTask task = new FilmAsyncTask(filmInterface);
         task.execute();
+
+        //find the view of home icon
+        ImageView homeIcon = (ImageView) findViewById(R.id.home);
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(MainActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
+            }
+        });
+
+        ImageView searchIcon = (ImageView) findViewById(R.id.search);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent searchIntent = new Intent(MainActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+            }
+        });
+
+        ImageView uploadIcon = (ImageView) findViewById(R.id.upload);
+        uploadIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent uploadIntent = new Intent(MainActivity.this, UploadActivity.class);
+                startActivity(uploadIntent);
+            }
+        });
     }
+
 
     private void updateUi(Film film) {
         TextView titleTextView = findViewById(R.id.title);
@@ -48,13 +79,16 @@ public class MainActivity extends AppCompatActivity {
         relDateTextView.setText("Release Date: " + film.getRelease());
 
         TextView dirTextView = findViewById(R.id.director);
-        dirTextView.setText(film.getDir());
+        dirTextView.setText(film.getDir() + "\nDirector");
 
         TextView mainTextView = findViewById(R.id.main);
         mainTextView.setText(film.getMain());
 
         TextView supportTextView = findViewById(R.id.support);
         supportTextView.setText(film.getSupport());
+
+        TextView subTitleView = findViewById(R.id.subtitle);
+        subTitleView.setText(film.getMain()+ " & " + film.getSupport()+", " + film.getCountry()+ ", "+film.getYear());
 
         ImageView posterView = findViewById(R.id.imageUrl);
         String imageUrl = film.getImage();
