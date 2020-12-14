@@ -24,7 +24,7 @@ public class QueryUtils {
     private static final String LOG_TAG = QueryUtils.class.getSimpleName();
     private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
 
-    private QueryUtils() {
+    public QueryUtils() {
     }
 
     public interface FilmProcessor {
@@ -41,6 +41,8 @@ public class QueryUtils {
             this.filmProcessor = processor;
 
         }
+
+
         @Override
         protected Film doInBackground(URL... urls) {
             // Create URL object
@@ -55,7 +57,7 @@ public class QueryUtils {
             }
 
             // Extract relevant fields from the JSON response and create an {@link Film} object
-            Film film = (Film) extractFeatureFromJson(jsonResponse).get(3);
+            Film film = (Film) extractFeatureFromJson(jsonResponse).get(1);
 
             // Return the {@link Film} object as the result fo the {@link FilmAsyncTask}
             return film;
