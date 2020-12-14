@@ -38,7 +38,7 @@
         </activity>
 
         <activity android:name=".MainActivity"
-            android:label="Main"
+            android:label="Film"
             android:parentActivityName=".HomeActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -20,7 +20,7 @@ public class MainActivity<clickListener> extends AppCompatActivity {
 
     public static final String LOG_TAG = MainActivity.class.getSimpleName();
 
-    private static final String requestURL = "https://my-movie-rating.herokuapp.com/film";
+    private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
 
     class FilmInterface implements FilmProcessor {
 

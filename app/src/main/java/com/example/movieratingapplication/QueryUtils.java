@@ -31,11 +31,15 @@ public class QueryUtils {
         public void processFilms (Film film);
     }
 
+
+
     static class FilmAsyncTask extends AsyncTask<URL, Void, Film> {
         public FilmProcessor filmProcessor;
 
+
         public FilmAsyncTask (FilmProcessor processor) {
             this.filmProcessor = processor;
+
         }
         @Override
         protected Film doInBackground(URL... urls) {

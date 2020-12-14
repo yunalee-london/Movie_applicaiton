@@ -6,14 +6,14 @@
     android:orientation="vertical"
     android:layout_weight="4">
     <ImageView
-        android:id="@+id/imageUrl"
+        android:id="@+id/poster_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scaleType="centerCrop"
         android:src="@drawable/lalaland"
         />
     <TextView
-        android:id="@+id/subtitle"
+        android:id="@+id/subtitle_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -23,11 +23,11 @@
         android:padding="10dp"
         />
     <TextView
-        android:id="@+id/title"
+        android:id="@+id/title_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_above="@id/subtitle"
+        android:layout_above="@id/subtitle_list"
         android:textSize="36sp"
         android:fontFamily="sans-serif-light"
         android:textColor="@color/white"
