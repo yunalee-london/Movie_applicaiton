@@ -12,33 +12,34 @@ import androidx.annotation.NonNull;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
+import java.util.List;
 
 public class FilmAdapter extends ArrayAdapter<Film> {
 
-    public FilmAdapter(@NonNull Context context, @NonNull ArrayList<Film> filmArray) {
+    public FilmAdapter(@NonNull Context context, @NonNull List<Film> filmArray) {
         super(context, 0, filmArray);
 
     }
     @NonNull
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        View listItemView = convertView;
+
+        if (listItemView == null) {
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
+        }
         Film currentFilm = getItem(position);
 
-        if (convertView == null) {
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
-        }
-
-        ImageView imageView = (ImageView) convertView.findViewById(R.id.poster_list);
+        ImageView imageView = (ImageView) listItemView.findViewById(R.id.poster_list);
         String imageUrl = currentFilm.getImage();
         Picasso.get().load(imageUrl).into(imageView);
 
-        TextView textTitle = (TextView) convertView.findViewById(R.id.title_list);
+        TextView textTitle = (TextView) listItemView.findViewById(R.id.title_list);
         textTitle.setText(currentFilm.getTitle());
 
-        TextView subTitle = (TextView) convertView.findViewById(R.id.subtitle_list);
+        TextView subTitle = (TextView) listItemView.findViewById(R.id.subtitle_list);
         subTitle.setText(currentFilm.getMain()+ " & " + currentFilm.getSupport()+", " + currentFilm.getCountry()+ ", "+currentFilm.getYear());
 
-        return convertView;
+        return listItemView;
     }
 }
