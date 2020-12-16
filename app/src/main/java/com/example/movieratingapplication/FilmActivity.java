@@ -1,4 +1,3 @@
-/*
 package com.example.movieratingapplication;
 
 
@@ -119,4 +118,3 @@ public class FilmActivity<clickListener> extends AppCompatActivity {
 
 
 
-*/

@@ -2,11 +2,11 @@ package com.example.movieratingapplication;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,14 +26,15 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(filmAdapter);
 
         FilmAsyncTask task = new FilmAsyncTask();
-        task.execute();
+        task.execute(requestURL);
     }
 
-    private class FilmAsyncTask extends AsyncTask<URL, Void, List<Film>> {
+    private class FilmAsyncTask extends AsyncTask<String, Void, List<Film>> {
 
         @Override
-        protected List<Film> doInBackground(URL... urls) {
+        protected List<Film> doInBackground(String... urls) {
             if (urls.length < 1 || urls[0] == null) {
+                Log.e("MainAcitivity", "did not fetch anything");
                 return null;
             }
 

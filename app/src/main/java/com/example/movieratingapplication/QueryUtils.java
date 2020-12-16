@@ -1,4 +1,3 @@
-/*
 package com.example.movieratingapplication;
 
 import android.os.AsyncTask;
@@ -95,12 +94,8 @@ public class QueryUtils {
             InputStream inputStream = null;
             try {
                 urlConnection = (HttpURLConnection) url.openConnection();
-                urlConnection.setReadTimeout(10000 */
-/* milliseconds *//*
-);
-                urlConnection.setConnectTimeout(15000 */
-/* milliseconds *//*
-);
+                urlConnection.setReadTimeout(10000);
+                urlConnection.setConnectTimeout(15000);
                 urlConnection.setRequestMethod("GET");
                 urlConnection.connect();
 
@@ -229,4 +224,3 @@ public class QueryUtils {
     }
 }
 
-*/
