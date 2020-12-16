@@ -1,8 +1,11 @@
 package com.example.movieratingapplication;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +30,18 @@ public class MainActivity extends AppCompatActivity {
 
         FilmAsyncTask task = new FilmAsyncTask();
         task.execute(requestURL);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Film film = (Film) parent.getItemAtPosition(position);
+                Intent intent = new Intent(MainActivity.this, FilmActivity.class);
+                intent.putExtra("film", film);
+                startActivity(intent);
+
+            }
+        });
+
     }
 
     private class FilmAsyncTask extends AsyncTask<String, Void, List<Film>> {
@@ -54,6 +69,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+    
 }
 
 

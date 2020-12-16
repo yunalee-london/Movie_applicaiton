@@ -1,5 +1,6 @@
 package com.example.movieratingapplication;
 
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -10,16 +11,61 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.squareup.picasso.Picasso;
 
-public class FilmActivity extends AppCompatActivity {
 
+public class OldFilmActivity<clickListener> extends AppCompatActivity {
+
+    public static final String LOG_TAG = MainActivity.class.getSimpleName();
+
+    private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
+
+    class FilmInterface implements QueryUtils.FilmProcessor {
+
+        @Override
+        public void processFilms(Film film) {
+            updateUi(film);
+        }
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film);
 
-        Intent intent = getIntent();
-        Film film = intent.getParcelableExtra("film");
+        FilmInterface filmInterface = new FilmInterface();
+        QueryUtils.FilmAsyncTask task = new QueryUtils.FilmAsyncTask(filmInterface);
+        task.execute();
 
+
+        //find the view of home icon
+        ImageView homeIcon = (ImageView) findViewById(R.id.home);
+        homeIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent homeIntent = new Intent(OldFilmActivity.this, MainActivity.class);
+                startActivity(homeIntent);
+            }
+        });
+
+        ImageView searchIcon = (ImageView) findViewById(R.id.search);
+        searchIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent searchIntent = new Intent(OldFilmActivity.this, SearchActivity.class);
+                startActivity(searchIntent);
+            }
+        });
+
+        ImageView uploadIcon = (ImageView) findViewById(R.id.upload);
+        uploadIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent uploadIntent = new Intent(OldFilmActivity.this, UploadActivity.class);
+                startActivity(uploadIntent);
+            }
+        });
+    }
+
+
+    public void updateUi(Film film) {
         TextView titleTextView = findViewById(R.id.title);
         titleTextView.setText(film.getTitle());
 
@@ -56,33 +102,19 @@ public class FilmActivity extends AppCompatActivity {
         ImageView supportView = findViewById(R.id.supportImage);
         String suppImageUrl = film.getSupportImage();
         Picasso.get().load(suppImageUrl).into(supportView);
-
-
-        ImageView homeIcon = (ImageView) findViewById(R.id.home);
-            homeIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent homeIntent = new Intent(FilmActivity.this, MainActivity.class);
-                startActivity(homeIntent);
-            }
-        });
-
-        ImageView searchIcon = (ImageView) findViewById(R.id.search);
-            searchIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent searchIntent = new Intent(FilmActivity.this, SearchActivity.class);
-                startActivity(searchIntent);
-            }
-        });
-
-        ImageView uploadIcon = (ImageView) findViewById(R.id.upload);
-            uploadIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent uploadIntent = new Intent(FilmActivity.this, UploadActivity.class);
-                startActivity(uploadIntent);
-            }
-        });
     }
+
+
+
 }
+
+
+//        TextView releaseDate = findViewById(R.id.release);
+//        LocalDate rel_date = LocalDate.of(2017, 01, 13);
+//        releaseDate.setText(DateCalculation.findDifference(rel_date, LocalDate.now()));
+
+
+
+
+
+

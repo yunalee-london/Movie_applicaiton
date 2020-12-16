@@ -1,6 +1,9 @@
 package com.example.movieratingapplication;
 
-public class Film {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class Film implements Parcelable {
     private final String title;
     private final String image;
     private final String country;
@@ -29,6 +32,34 @@ public class Film {
         support = supportAct;
         supportImage = supportPhoto;
      }
+
+    protected Film(Parcel in) {
+        title = in.readString();
+        image = in.readString();
+        country = in.readString();
+        year = in.readInt();
+        synopsis = in.readString();
+        release = in.readString();
+        dir = in.readString();
+        dirImage = in.readString();
+        main = in.readString();
+        mainImage = in.readString();
+        support = in.readString();
+        supportImage = in.readString();
+    }
+
+    public static final Creator<Film> CREATOR = new Creator<Film>() {
+        @Override
+        public Film createFromParcel(Parcel in) {
+            return new Film(in);
+        }
+
+        @Override
+        public Film[] newArray(int size) {
+            return new Film[size];
+        }
+    };
+
     public String getTitle() {return title;}
     public String getImage() {return image;}
     public String getCountry() {return country;}
@@ -43,4 +74,24 @@ public class Film {
     public String getSupportImage() {return supportImage;}
 
 
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(title);
+        dest.writeString(image);
+        dest.writeString(country);
+        dest.writeInt(year);
+        dest.writeString(synopsis);
+        dest.writeString(release);
+        dest.writeString(dir);
+        dest.writeString(dirImage);
+        dest.writeString(main);
+        dest.writeString(mainImage);
+        dest.writeString(support);
+        dest.writeString(supportImage);
+    }
 }
