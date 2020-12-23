@@ -1,13 +1,14 @@
+/*
 package com.example.movieratingapplication;
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
 import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -16,6 +17,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NavUtils;
 import androidx.loader.app.LoaderManager;
@@ -24,7 +26,7 @@ import androidx.loader.content.Loader;
 
 import com.example.movieratingapplication.data.FilmContract;
 
-public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
     private static final int EXISTING_FILM_LOADER = 0;
     private Uri mCurrentFilmUri;
@@ -67,7 +69,6 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             //Initialize a loader to read the film data from the db
             //and display the current values in the editor
             LoaderManager.getInstance(this).initLoader(EXISTING_FILM_LOADER, null, this);
-
         }
 
         //Find all relevent views that we will need to read user input from
@@ -86,20 +87,18 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         //setup OnTouchListeners on all the input fields, so we can determine
         //if the user has touched or modified them. This will let us know if there
         //are unsaved changes or not, if the user tries to leave the editor without saving.
-        mTitleField.setOnTouchListener(mTouchListener);
-        mCountryField.setOnTouchListener(mTouchListener);
-        mDirField.setOnTouchListener(mTouchListener);
-        mMainField.setOnTouchListener(mTouchListener);
-        mSuppField.setOnTouchListener(mTouchListener);
-        mSynopField.setOnTouchListener(mTouchListener);
-        mPosterField.setOnTouchListener(mTouchListener);
-        mDirUrl.setOnTouchListener(mTouchListener);
-        mMainUrl.setOnTouchListener(mTouchListener);
-        mSupportUrl.setOnTouchListener(mTouchListener);
-        mDateField.setOnTouchListener(mTouchListener);
-
+        mTitleField.setOnTouchListener(mTouchListener);;
+        mCountryField.setOnTouchListener(mTouchListener);;
+        mDirField.setOnTouchListener(mTouchListener);;
+        mMainField.setOnTouchListener(mTouchListener);;
+        mSuppField.setOnTouchListener(mTouchListener);;
+        mSynopField.setOnTouchListener(mTouchListener);;
+        mPosterField.setOnTouchListener(mTouchListener);;
+        mDirUrl.setOnTouchListener(mTouchListener);;
+        mMainUrl.setOnTouchListener(mTouchListener);;
+        mSupportUrl.setOnTouchListener(mTouchListener);;
+        mDateField.setOnTouchListener(mTouchListener);;
     }
-
     //Get user input from editor and save film in to db.
     private void saveFilm() {
         //Read from input fields
@@ -117,14 +116,33 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         String year = Integer.toString(mDateField.getYear()).trim();
         String month = Integer.toString(mDateField.getMonth()).trim();
         String date = Integer.toString(mDateField.getDayOfMonth()).trim();
-        String releaseDate = year + ". " + month + ". " + date;
+        String releaseDate = year + "." + month + "." + date;
 
+
+        //Check if this is for a new film
+        //and check if all fields are blank
+        if(mCurrentFilmUri == null &&
+                TextUtils.isEmpty(title)&&
+                TextUtils.isEmpty(country)&&
+                TextUtils.isEmpty(director)&&
+                TextUtils.isEmpty(mainAct)&&
+                TextUtils.isEmpty(supportAct)&&
+                TextUtils.isEmpty(synopsis)&&
+                TextUtils.isEmpty(poster)&&
+                TextUtils.isEmpty(dirPic)&&
+                TextUtils.isEmpty(mainPic)&&
+                TextUtils.isEmpty(supportPic)&&
+                TextUtils.isEmpty(releaseDate)) {
+            //Since no fields were modified, we can return early without creating a new film.
+            //No need to create ContentValues and no need to do any ContentProvider operations.
+            return;
+        }
 
         //Create ContentValues object where column name are the keys,
         //and film attributes from the editor are the values.
         ContentValues values = new ContentValues();
         values.put(FilmContract.FilmEntry.COLUMN_TITLE, title);
-        values.put(FilmContract.FilmEntry.COLUMN_COUNTRY, country);
+        values.put(FilmContract.FilmEntry.COLUMN_COUNTRY,country);
         values.put(FilmContract.FilmEntry.COLUMN_IMAGE_URL, poster);
         values.put(FilmContract.FilmEntry.COLUMN_YEAR, year);
         values.put(FilmContract.FilmEntry.COLUMN_SYNOPSIS, synopsis);
@@ -138,17 +156,16 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
         //Determine if this is a new or existing film
         // by checking if mCurrentFilmUri is null or not
-        if (mCurrentFilmUri == null) {
-            //This is a new film, so insert a new film into the provider,M
+        if(mCurrentFilmUri == null) {
+            //This is a new film, so insert a new film into the provider,
             //returning the content URI for the new film.
-            System.out.print(values);
             Uri newUri = getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
 
             //show a toast message
-            if (newUri == null) {
-                Toast.makeText(this, "Adding a new film failed" , Toast.LENGTH_LONG).show();
+            if(newUri == null) {
+                Toast.makeText(this, "Adding a new film failed", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Film added successfully" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Film added successfully", Toast.LENGTH_SHORT).show();
             }
         } else {
             //This is an EXISTING film, so update the film with content URI:mCurrentFilmUri
@@ -167,7 +184,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
 
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu (Menu menu){
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_edit, menu);
@@ -175,7 +192,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected (MenuItem item){
         // User clicked on a menu option in the app bar overflow menu
         switch (item.getItemId()) {
             //"Save" menu option
@@ -190,11 +207,11 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             //"Up" arrow button in the app bar
             case android.R.id.home:
                 //If the film has not changed, continue with navigation up to parent activity to MainActivity
-                if (!mFilmHasChanged) {
+                if(!mFilmHasChanged) {
                     NavUtils.navigateUpFromSameTask(UploadActivity.this);
                     return true;
                 }
-                //If there are unsaved changes, setup a disalog to warn the user.
+                //If there are unsaved changes, setup a dialog to warn the user.
                 //Create a click listener to handle the user confirming that
                 //changes should be discarded.
                 DialogInterface.OnClickListener discardButtonClickListener =
@@ -209,8 +226,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                 showUnsavedChangesDialog(discardButtonClickListener);
         }
         return super.onOptionsItemSelected(item);
-
     }
+
     //This method is called when the back button is pressed.
     @Override
     public void onBackPressed() {
@@ -307,30 +324,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             mDirUrl.setText(filmDirUrl);
             mMainUrl.setText(filmMainUrl);
             mSupportUrl.setText(filmSuppUrl);
-            mDateField.updateDate(getRelYear(filmRel), getRelMonth(filmRel), getRelDate(filmRel));
+            //mDateField
         }
-    }
-
-    public int getRelYear(String dateString) {
-        String[] arrSplit = dateString.split(". ");
-        for (int i = 0; i < arrSplit.length; i++) {
-            System.out.println(arrSplit[i]);
-        }
-        return Integer.parseInt(arrSplit[0]);
-    }
-    public int getRelMonth(String dateString) {
-        String[] arrSplit = dateString.split(". ");
-        for (int i = 0; i < arrSplit.length; i++) {
-            System.out.println(arrSplit[i]);
-        }
-        return Integer.parseInt(arrSplit[1]);
-    }
-    public int getRelDate(String dateString) {
-        String[] arrSplit = dateString.split(". ");
-        for (int i = 0; i < arrSplit.length; i++) {
-            System.out.println(arrSplit[i]);
-        }
-        return Integer.parseInt(arrSplit[2]);
     }
 
 
@@ -348,7 +343,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         mDirUrl.setText("");
         mMainUrl.setText("");
         mSupportUrl.setText("");
-        mDateField.updateDate(2021, 1, 1);
+        //mDateField.init
     }
 
 
@@ -420,33 +415,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     }
 }
 
-
-
-
-
-
-
-    /*//perform the deletion of the film in the db
-    private void deleteFilm() {
-        //Only perform the delete if this is an existing film.
-        if (mCurrentFilmUri != null) {
-            //call the contentResolver to delete at the given content uri.
-            //pass in null for the selection and selection args because the mCurrentFilmUri
-            //content URI already indentifies the film that we want.
-            int rowsDeleted = getContentResolver().delete(mCurrentFilmUri, null, null);
-
-            //Toast message
-            if (rowsDeleted == 0) {
-                Toast.makeText(this, "Failed in deleting the film", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(this, "Film deleted successfully", Toast.LENGTH_SHORT).show();
-            }
-        }
-        //close the activity
-        finish();
-    }
-}*/
- /*private void insertFilm() {
+ */
+/*private void insertFilm() {
         FilmDbHelper filmDbHelper = new FilmDbHelper(this);
         //get the database in write mode
         SQLiteDatabase db = filmDbHelper.getWritableDatabase();
@@ -515,11 +485,13 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             Toast.makeText(this, getString(R.string.editor_insert_film_successful), Toast.LENGTH_SHORT).show();
         }
 
-    }*/
+    }*//*
+
 
 
 //Below code is used to connect the http server when contents.
-       /* Button add_button = (Button)findViewById(R.id.add_button);
+       */
+/* Button add_button = (Button)findViewById(R.id.add_button);
         add_button.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {

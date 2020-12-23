@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.text.TextUtils;
@@ -32,9 +33,11 @@ public class QueryUtil {
         return url;
     }
 
-    /**
+    */
+/**
      * Make an HTTP request to the given URL and return a String as the response.
-     */
+     *//*
+
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -47,8 +50,12 @@ public class QueryUtil {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(10000 */
+/* milliseconds *//*
+);
+            urlConnection.setConnectTimeout(15000 */
+/* milliseconds *//*
+);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
@@ -76,10 +83,12 @@ public class QueryUtil {
         return jsonResponse;
     }
 
-    /**
+    */
+/**
      * Convert the {@link InputStream} into a String which contains the
      * whole JSON response from the server.
-     */
+     *//*
+
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
@@ -142,25 +151,23 @@ public class QueryUtil {
 
             String country = currentFilm.getString("country");
 
-            int year = currentFilm.getInt("year");
+            String year = currentFilm.getString("year");
 
             String synopsis = currentFilm.getString("synopsis");
 
             String release = currentFilm.getString("release");
 
-            JSONArray castCrew = currentFilm.getJSONArray("cast_crew");
+            String director = currentFilm.getString("director");
 
-            String director = castCrew.getJSONObject(0).getString("director");
+            String dirImage = currentFilm.getString("dirImage");
 
-            String dirImage = castCrew.getJSONObject(0).getString("dirImage");
+            String mainAct = currentFilm.getString("cast1");
 
-            String mainAct = castCrew.getJSONObject(0).getString("cast1");
+            String mainImage = currentFilm.getString("cast1Image");
 
-            String mainImage = castCrew.getJSONObject(0).getString("cast1Image");
+            String supportAct = currentFilm.getString("cast2");
 
-            String supportAct = castCrew.getJSONObject(0).getString("cast2");
-
-            String supportImage = castCrew.getJSONObject(0).getString("cast2Image");
+            String supportImage = currentFilm.getString("cast2Image");
 
             Film film = new Film(title, imageUrl, country, year, synopsis, release, director, dirImage, mainAct, mainImage, supportAct, supportImage);
 
@@ -194,3 +201,4 @@ public class QueryUtil {
     }
 
 }
+*/

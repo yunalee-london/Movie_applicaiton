@@ -4,10 +4,11 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class Film implements Parcelable {
+    private final long id;
     private final String title;
     private final String image;
     private final String country;
-    private final int year;
+    private final String year;
     private final String synopsis;
     private final String release;
     private final String dir;
@@ -18,7 +19,8 @@ public class Film implements Parcelable {
     private final String supportImage;
 
 
-    public Film(String filmTitle, String imageUrl, String relCountry, int relYear, String story, String relDate, String director, String dirPhoto, String mainAct, String mainPhoto, String supportAct, String supportPhoto){
+    public Film(long id, String filmTitle, String imageUrl, String relCountry, String relYear, String story, String relDate, String director, String dirPhoto, String mainAct, String mainPhoto, String supportAct, String supportPhoto){
+        this.id = id;
         title = filmTitle;
         image = imageUrl;
         country = relCountry;
@@ -34,10 +36,11 @@ public class Film implements Parcelable {
      }
 
     protected Film(Parcel in) {
+        id = in.readLong();
         title = in.readString();
         image = in.readString();
         country = in.readString();
-        year = in.readInt();
+        year = in.readString();
         synopsis = in.readString();
         release = in.readString();
         dir = in.readString();
@@ -59,11 +62,11 @@ public class Film implements Parcelable {
             return new Film[size];
         }
     };
-
+    public long getId() {return id;}
     public String getTitle() {return title;}
     public String getImage() {return image;}
     public String getCountry() {return country;}
-    public int getYear() {return year;}
+    public String getYear() {return year;}
     public String getSynopsis() {return synopsis;}
     public String getRelease() {return release;}
     public String getDir() {return dir;}
@@ -81,10 +84,11 @@ public class Film implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeLong(id);
         dest.writeString(title);
         dest.writeString(image);
         dest.writeString(country);
-        dest.writeInt(year);
+        dest.writeString(year);
         dest.writeString(synopsis);
         dest.writeString(release);
         dest.writeString(dir);

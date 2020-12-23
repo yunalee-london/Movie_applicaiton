@@ -115,11 +115,11 @@
             android:paddingTop="10dp"
             android:layout_gravity="center_horizontal"
             android:datePickerMode="calendar"/>
-        <Button
+        <!--<Button
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Submit" />
+            android:text="Submit" />-->
       </LinearLayout>
 </ScrollView>

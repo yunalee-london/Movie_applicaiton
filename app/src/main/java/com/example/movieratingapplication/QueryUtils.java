@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.os.AsyncTask;
@@ -146,7 +147,7 @@ public class QueryUtils {
 
                 String country = currentFilm.getString("country");
 
-                int year = currentFilm.getInt("year");
+                String year = currentFilm.getString("year");
 
                 String synopsis = currentFilm.getString("synopsis");
 
@@ -224,3 +225,4 @@ public class QueryUtils {
     }
 }
 
+*/
