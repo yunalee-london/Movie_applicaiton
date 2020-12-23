@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -66,6 +67,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
             //Initialize a loader to read the film data from the db
             //and display the current values in the editor
+            mCurrentFilmUri = currentFilmUri;
             LoaderManager.getInstance(this).initLoader(EXISTING_FILM_LOADER, null, this);
 
         }
@@ -117,7 +119,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         String year = Integer.toString(mDateField.getYear()).trim();
         String month = Integer.toString(mDateField.getMonth()).trim();
         String date = Integer.toString(mDateField.getDayOfMonth()).trim();
-        String releaseDate = year + ". " + month + ". " + date;
+        String releaseDate = year + "." + month + "." + date;
 
 
         //Create ContentValues object where column name are the keys,
@@ -250,6 +252,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                 FilmContract.FilmEntry.COLUMN_SUPPORT,
                 FilmContract.FilmEntry.COLUMN_SUPPORT_URL
         };
+        Log.e("upload", "-----------------------------------" + mCurrentFilmUri);
 
         return new CursorLoader(this, mCurrentFilmUri, projection, null, null, null);
     }
@@ -312,21 +315,21 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     public int getRelYear(String dateString) {
-        String[] arrSplit = dateString.split(". ");
+        String[] arrSplit = dateString.split("\\.");
         for (int i = 0; i < arrSplit.length; i++) {
             System.out.println(arrSplit[i]);
         }
         return Integer.parseInt(arrSplit[0]);
     }
     public int getRelMonth(String dateString) {
-        String[] arrSplit = dateString.split(". ");
+        String[] arrSplit = dateString.split("\\.");
         for (int i = 0; i < arrSplit.length; i++) {
             System.out.println(arrSplit[i]);
         }
         return Integer.parseInt(arrSplit[1]);
     }
     public int getRelDate(String dateString) {
-        String[] arrSplit = dateString.split(". ");
+        String[] arrSplit = dateString.split("\\.");
         for (int i = 0; i < arrSplit.length; i++) {
             System.out.println(arrSplit[i]);
         }
