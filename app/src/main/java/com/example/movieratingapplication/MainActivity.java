@@ -135,22 +135,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
 
-
-
-        //to access the db, instantiate the subclass of SQLiteOpenHelper
-        //and pass the context, which is the current activity
-
-        //filmDbHelper = new FilmDbHelper(this);
-
-        //displayDatabaseInfo();
-
-        /*FilmDbHelper filmDbHelper = new FilmDbHelper(this);
-
-        //Create or open a database to read from it
-        SQLiteDatabase db = filmDbHelper.getReadableDatabase();*/
-
     }
-
 
     private void insertFilm() {
          //Create a ContentValues object where column names are the keys,
@@ -177,7 +162,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-
+        /*SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+        // Assumes current activity is the searchable activity
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        searchView.setIconifiedByDefault(false);*/ // Do not iconify the widget; expand it by default
         return true;
     }
 
