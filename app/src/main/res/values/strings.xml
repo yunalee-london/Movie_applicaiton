@@ -24,5 +24,7 @@
     <string name="delete_dialog_message"> Delete changes?</string>
     <string name="delete">Delete</string>
     <string name="cancel">Cancel</string>
+    <string name="searchable">searchable</string>
+    <string name="film_title_search">Film Title</string>
 
 </resources>

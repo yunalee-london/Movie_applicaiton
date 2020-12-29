@@ -29,7 +29,6 @@ public class FilmActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Film film = intent.getParcelableExtra("film");
 
-
         TextView titleTextView = findViewById(R.id.title);
         titleTextView.setText(film.getTitle());
 

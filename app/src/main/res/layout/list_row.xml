@@ -1,32 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<androidx.cardview.widget.CardView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:cardCornerRadius="20dp"
+    >
+
+<RelativeLayout
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="8dp"
+    android:background="@color/gray_800"
+    >
     <ImageView
         android:id="@+id/poster_list"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:scaleType="centerCrop" />
+        android:layout_height="200dp"
+        android:scaleType="centerCrop"
+        />
     <TextView
         android:id="@+id/subtitle_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:fontFamily="sans-serif-light"
-        android:textSize="12sp"
-        android:textColor="@color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
         android:padding="10dp"
         />
     <TextView
         android:id="@+id/title_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_above="@id/subtitle_list"
-        android:textSize="36sp"
+        android:layout_alignParentEnd="true"
         android:fontFamily="sans-serif-light"
-        android:textColor="@color/black"
-        android:paddingHorizontal ="10dp" />
+        android:paddingHorizontal="10dp"
+        android:textColor="@color/white"
+        android:textSize="30sp"
+        android:textStyle="bold" />
 </RelativeLayout>
+</androidx.cardview.widget.CardView>

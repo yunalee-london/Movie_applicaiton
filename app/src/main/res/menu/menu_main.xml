@@ -15,4 +15,10 @@
         android:id="@+id/action_delete_all_entries"
         android:title="action_delete_all_entries"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_search"
+        android:title="action_search"
+        android:icon="@drawable/ic_baseline_search_24"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView" />
 </menu>

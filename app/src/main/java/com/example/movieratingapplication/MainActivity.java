@@ -4,7 +4,9 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,15 +24,20 @@ import com.example.movieratingapplication.data.FilmContract;
 import com.example.movieratingapplication.data.FilmDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    //private FilmAdapter filmAdapter;
+    private FilmAdapter filmAdapter;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     //private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
+    private static final String requestURL = "http://10.0.2.2:3001/";
     private FilmDbHelper filmDbHelper;
     //initialize the loader
     private static final int FILM_LOADER = 0;
     //make it global variable
     FilmCursorAdapter mCursorAdapter;
+
 
 
     @Override
@@ -53,10 +60,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         View emptyView = findViewById(R.id.empty_view);
         filmListView.setEmptyView((emptyView));
 
+
         //Setup the Adapter to create a list item for each row of film data in the cursor.
         //there is no film data yet (until the loader finishes) so pass in null for the cursor.
         mCursorAdapter = new FilmCursorAdapter(this, null);
         filmListView.setAdapter(mCursorAdapter);
+
 
         //Kick off the loader
         LoaderManager.getInstance(this).initLoader(FILM_LOADER, null, this);
@@ -105,13 +114,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
 
-        /*filmAdapter = new FilmAdapter(this, new ArrayList<Film>());
+        filmAdapter = new FilmAdapter(this, new ArrayList<Film>());
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         listView.setAdapter(filmAdapter);
 
-        *//*FilmAsyncTask task = new FilmAsyncTask();
-        task.execute(requestURL);*//*
+        FilmAsyncTask task = new FilmAsyncTask();
+        task.execute(requestURL);
+
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -122,7 +132,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
 
             }
-        });*/
+        });
+
+
+
+
         //to access the db, instantiate the subclass of SQLiteOpenHelper
         //and pass the context, which is the current activity
 
@@ -137,65 +151,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-   /* @Override
-    protected void onStart() {
-        super.onStart();
-        displayDatabaseInfo();
-    }*/
 
-   /* private void displayDatabaseInfo() {
-
-        //Create or open a database to read from it
-        //SQLiteDatabase db = filmDbHelper.getReadableDatabase();
-
-        //Perform this raw SQL query "SELECT * FROM films"
-        //to get a Cursor that contains all rows from the films table
-        //Cursor cursor = db.rawQuery("SELECT * FROM " + FilmContract.FilmEntry.TABLE_NAME, null);
-
-        String[] projection = {
-                FilmContract.FilmEntry._ID,
-                FilmContract.FilmEntry.COLUMN_TITLE,
-                FilmContract.FilmEntry.COLUMN_COUNTRY,
-                FilmContract.FilmEntry.COLUMN_IMAGE_URL,
-                FilmContract.FilmEntry.COLUMN_YEAR,
-                FilmContract.FilmEntry.COLUMN_SYNOPSIS,
-                FilmContract.FilmEntry.COLUMN_RELEASE,
-                FilmContract.FilmEntry.COLUMN_DIRECTOR,
-                FilmContract.FilmEntry.COLUMN_DIR_URL,
-                FilmContract.FilmEntry.COLUMN_MAIN,
-                FilmContract.FilmEntry.COLUMN_MAIN_URL,
-                FilmContract.FilmEntry.COLUMN_SUPPORT,
-                FilmContract.FilmEntry.COLUMN_SUPPORT_URL
-
-        };
-
-        //Cursor cursor = db.query(FilmContract.FilmEntry.TABLE_NAME, projection, null, null, null, null, null);
-
-        Cursor cursor = getContentResolver().query(FilmContract.FilmEntry.CONTENT_URI, projection, null, null, null);
-
-        TextView displayView = (TextView) findViewById(R.id.text_view_film);
-        try {
-            displayView.setText("The film table contains " + cursor.getCount() + "films.\n\n");
-            displayView.append(FilmContract.FilmEntry._ID + "-" + FilmContract.FilmEntry.COLUMN_TITLE + "\n");
-
-            //figure out the index of each column
-            int idColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry._ID);
-            int titleColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_TITLE);
-
-            while (cursor.moveToNext()) {
-                int currentID = cursor.getInt(idColumnIndex);
-                String currentTitle = cursor.getString(titleColumnIndex);
-
-                //display the vallues from each column of the current row in the cursor in textview
-                displayView.append("\n" + currentID + "-" + currentTitle);
-            }
-        } finally {
-            //Always close the cursor when you are done reading from it.
-            //This release all its resources and makes it invalid.
-            cursor.close();
-        }
-    }
-*/
     private void insertFilm() {
          //Create a ContentValues object where column names are the keys,
         //and the film's attributes are the values.
@@ -220,6 +176,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+
         return true;
     }
 
@@ -230,16 +188,21 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Respond to a click on the "Insert dummy data" menu option
             case R.id.action_insert_dummy_data:
                 insertFilm();
-                //displayDatabaseInfo();
+
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_all_entries:
                 // Do nothing for now
                 return true;
+            case R.id.action_search:
+
+
+
         }
         return super.onOptionsItemSelected(item);
     }
 
+    
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
@@ -277,10 +240,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCursorAdapter.swapCursor(null);
 
     }
-}
 
-
-   /* private class FilmAsyncTask extends AsyncTask<String, Void, List<Film>> {
+    public class FilmAsyncTask extends AsyncTask<String, Void, List<Film>> {
 
         @Override
         protected List<Film> doInBackground(String... urls) {
@@ -298,16 +259,17 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             // Clear the adapter of previous earthquake data
             filmAdapter.clear();
 
+
             // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
             // data set. This will trigger the ListView to update.
             if (films != null && !films.isEmpty()) {
                 filmAdapter.addAll(films);
+
             }
         }
     }
     
 }
-*/
 
 
 
