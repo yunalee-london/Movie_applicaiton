@@ -1,8 +1,10 @@
-/*
 package com.example.movieratingapplication;
 
+import android.content.ContentValues;
 import android.text.TextUtils;
 import android.util.Log;
+
+import com.example.movieratingapplication.data.FilmContract;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -19,8 +21,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
-public class QueryUtil {
-    private static final String LOG_TAG = QueryUtil.class.getSimpleName();
+public class FilmUtils {
+    private static final String LOG_TAG = FilmUtils.class.getSimpleName();
     private static final String requestURL = "http://10.0.2.2:3001/";
 
     private static URL createUrl(String stringUrl) {
@@ -93,14 +95,14 @@ public class QueryUtil {
         return output.toString();
     }
 
-    private static List<Film> extractFeatureFromJson(String filmJSON) {
+    private static List<ContentValues> extractFeatureFromJson(String filmJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(filmJSON)) {
             return null;
         }
 
-        // Create an empty ArrayList that we can start adding earthquakes to
-        List<Film> films = new ArrayList<>() ;
+        // Create an empty ArrayList that we can start adding films to
+        List<ContentValues> filmValues = new ArrayList<>() ;
 
         try {
 
@@ -114,9 +116,9 @@ public class QueryUtil {
 
                 JSONObject currentFilm = filmArray.getJSONObject(i);
 
-                Film film = parsingJsonObj(currentFilm);
+                ContentValues values = parsingJsonObj(currentFilm);
 
-                films.add(film);
+                filmValues.add(values);
 
             }
 
@@ -124,22 +126,22 @@ public class QueryUtil {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtil", "Problem parsing the film JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the film JSON results", e);
         }
 
         // Return the list of films
-        Log.v("------------------------------QueryUtil", "films: " + films);
-        return films;
+        Log.v("------------------------------FilmUtils", "films: " + filmValues);
+        return filmValues;
     }
 
-    private static Film parsingJsonObj (JSONObject currentFilm) {
+    private static ContentValues parsingJsonObj (JSONObject currentFilm) {
 
         try {
-            long id =0;
+            int id = 0;
 
             String title = currentFilm.getString("title");
 
-            String imageUrl = currentFilm.getString("image");
+            String poster = currentFilm.getString("image");
 
             String country = currentFilm.getString("country");
 
@@ -147,33 +149,49 @@ public class QueryUtil {
 
             String synopsis = currentFilm.getString("synopsis");
 
-            String release = currentFilm.getString("release");
+            String releaseDate = currentFilm.getString("release");
 
             String director = currentFilm.getString("director");
 
-            String dirImage = currentFilm.getString("dirImage");
+            String dirPic = currentFilm.getString("dirImage");
 
-            String mainAct = currentFilm.getString("cast1");
+            String mainAct = currentFilm.getString("main");
 
-            String mainImage = currentFilm.getString("cast1Image");
+            String mainPic = currentFilm.getString("mainImage");
 
-            String supportAct = currentFilm.getString("cast2");
+            String supportAct = currentFilm.getString("support");
 
-            String supportImage = currentFilm.getString("cast2Image");
+            String supportPic = currentFilm.getString("supportImage");
 
-            Film film = new Film(id, title, imageUrl, country, year, synopsis, release, director, dirImage, mainAct, mainImage, supportAct, supportImage);
+            Film film = new Film(id, title, poster, country, year, synopsis, releaseDate, director, dirPic, mainAct, mainPic, supportAct, supportPic);
 
-            return film;
 
+
+            ContentValues values = new ContentValues();
+            values.put(FilmContract.FilmEntry.COLUMN_TITLE, title);
+            values.put(FilmContract.FilmEntry.COLUMN_COUNTRY, country);
+            values.put(FilmContract.FilmEntry.COLUMN_IMAGE_URL, poster);
+            values.put(FilmContract.FilmEntry.COLUMN_YEAR, year);
+            values.put(FilmContract.FilmEntry.COLUMN_SYNOPSIS, synopsis);
+            values.put(FilmContract.FilmEntry.COLUMN_RELEASE, releaseDate);
+            values.put(FilmContract.FilmEntry.COLUMN_DIRECTOR, director);
+            values.put(FilmContract.FilmEntry.COLUMN_DIR_URL, dirPic);
+            values.put(FilmContract.FilmEntry.COLUMN_MAIN, mainAct);
+            values.put(FilmContract.FilmEntry.COLUMN_MAIN_URL, mainPic);
+            values.put(FilmContract.FilmEntry.COLUMN_SUPPORT, supportAct);
+            values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, supportPic);
+
+            return values;
 
         } catch (JSONException e) {
-            Log.e("QueryUtils", "Problem parsing the film JSON results", e);
+            Log.e(LOG_TAG, "Problem parsing the film JSON results", e);
         }
 
         return null;
     }
 
-    public static List<Film> fetchFilmData(String requestUrl) {
+
+    public static List<ContentValues> fetchFilmData(String requestUrl) {
         // Create URL object
         URL url = createUrl(requestUrl);
 
@@ -186,11 +204,10 @@ public class QueryUtil {
         }
 
         // Extract relevant fields from the JSON response and create a list of {@link Earthquake}s
-        List<Film> films = extractFeatureFromJson(jsonResponse);
+        List<ContentValues> films = extractFeatureFromJson(jsonResponse);
 
-        // Return the list of {@link Earthquake}s
+        // Return the list of {@link filmValues}s
         return films;
     }
 
 }
-*/

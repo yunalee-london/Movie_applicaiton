@@ -24,11 +24,11 @@ import com.example.movieratingapplication.data.FilmContract;
 import com.example.movieratingapplication.data.FilmDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
-    private FilmAdapter filmAdapter;
+
+    //private FilmAdapter filmAdapter;
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     //private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
     private static final String requestURL = "http://10.0.2.2:3001/";
@@ -114,16 +114,16 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         });
 
 
-        filmAdapter = new FilmAdapter(this, new ArrayList<Film>());
+        //filmAdapter = new FilmAdapter(this, new ArrayList<Film>());
 
-        ListView listView = (ListView) findViewById(R.id.list_view);
-        listView.setAdapter(filmAdapter);
+        //ListView listView = (ListView) findViewById(R.id.list_view);
+        //listView.setAdapter(filmAdapter);
 
         FilmAsyncTask task = new FilmAsyncTask();
         task.execute(requestURL);
 
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Film film = (Film) parent.getItemAtPosition(position);
@@ -132,7 +132,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 startActivity(intent);
 
             }
-        });
+        });*/
 
 
     }
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);*/ // Do not iconify the widget; expand it by default
+        searchView.setIconifiedByDefault(false); */// Do not iconify the widget; expand it by default
         return true;
     }
 
@@ -230,35 +230,51 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    public class FilmAsyncTask extends AsyncTask<String, Void, List<Film>> {
+    private void saveFilmData(ContentValues values) {
+
+        //Determine if this is a new or existing film
+        // by checking if mCurrentFilmUri is null or not
+
+
+        Uri newUri = getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
+
+
+    }
+
+    public class FilmAsyncTask extends AsyncTask<String, Void, List<ContentValues>> {
 
         @Override
-        protected List<Film> doInBackground(String... urls) {
+        protected List<ContentValues> doInBackground(String... urls) {
             if (urls.length < 1 || urls[0] == null) {
                 Log.e("MainActivity", "did not fetch anything");
                 return null;
             }
 
-            List<Film> films = QueryUtil.fetchFilmData(requestURL);
+            List<ContentValues> films = FilmUtils.fetchFilmData(requestURL);
             return films;
         }
 
         @Override
-        protected void onPostExecute(List<Film> films) {
-            // Clear the adapter of previous earthquake data
-            filmAdapter.clear();
+        protected void onPostExecute(List<ContentValues> films) {
+
+            mCursorAdapter.swapCursor(null);
 
 
-            // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+            // If there is a valid list of {@link filmValues}s, then add them to the adapter's
             // data set. This will trigger the ListView to update.
-            if (films != null && !films.isEmpty()) {
-                filmAdapter.addAll(films);
+            for (int i = 0; i < films.size(); i++) {
+
+                ContentValues values = films.get(i);
+                saveFilmData(values);
+
+            }
+
 
             }
         }
     }
     
-}
+
 
 
 

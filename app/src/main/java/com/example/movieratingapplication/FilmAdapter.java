@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.content.Context;
@@ -48,3 +49,4 @@ public class FilmAdapter extends ArrayAdapter<Film> {
 
 
 }
+*/

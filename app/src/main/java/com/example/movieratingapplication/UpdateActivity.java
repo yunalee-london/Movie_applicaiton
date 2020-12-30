@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.annotation.SuppressLint;
@@ -24,15 +25,9 @@ import androidx.loader.content.CursorLoader;
 import androidx.loader.content.Loader;
 
 import com.example.movieratingapplication.data.FilmContract;
-import com.google.gson.Gson;
-
-import java.io.DataOutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 
 public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
-    //private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
-    private static final String requestURL = "http://10.0.2.2:3001/";
+    private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
     private static final int EXISTING_FILM_LOADER = 0;
     private Uri mCurrentFilmUri;
     private EditText mTitleField;
@@ -188,10 +183,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         switch (item.getItemId()) {
             //"Save" menu option
             case R.id.action_save:
-                //saveFilm();
-                onButtonClickHttpPost httpPost= new onButtonClickHttpPost();
-                httpPost.sendPost();
-
+                saveFilm();
                 finish();//Exit activity
                 return true;
             //"delete" menu option
@@ -205,7 +197,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                     NavUtils.navigateUpFromSameTask(UploadActivity.this);
                     return true;
                 }
-                //If there are unsaved changes, setup a dialog to warn the user.
+                //If there are unsaved changes, setup a disalog to warn the user.
                 //Create a click listener to handle the user confirming that
                 //changes should be discarded.
                 DialogInterface.OnClickListener discardButtonClickListener =
@@ -430,10 +422,24 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         //close the activity
         finish();
     }
+}
 
 
 //Below code is used to connect the http server when contents.
+       */
+/* Button add_button = (Button)findViewById(R.id.add_button);
+        add_button.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                onButtonClickHttpPost httpPost= new onButtonClickHttpPost();
+                httpPost.sendPost();
 
+                Intent intent = new Intent(UploadActivity.this, MainActivity.class);
+                startActivity(intent);
+        }
+    });
+
+    }
     public class onButtonClickHttpPost {
         public void sendPost() {
             Thread thread = new Thread(new Runnable() {
@@ -473,25 +479,45 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         }
 
         private Film submitFilm() {
-            int id = 0;
-            String title = mTitleField.getText().toString().trim();
-            String poster = mPosterField.getText().toString().trim();
-            String country = mCountryField.getText().toString().trim();
-            String director = mDirField.getText().toString().trim();
-            String mainAct = mMainField.getText().toString().trim();
-            String supportAct = mSuppField.getText().toString().trim();
-            String synopsis = mSynopField.getText().toString().trim();
+            EditText titleField = (EditText) findViewById(R.id.title_field);
+            String title = titleField.getText().toString();
+            Log.v("SearchActivity", "Title: " + title);
 
-            String dirPic = mDirUrl.getText().toString().trim();
-            String mainPic = mMainUrl.getText().toString().trim();
-            String supportPic = mSupportUrl.getText().toString().trim();
-            String year = Integer.toString(mDateField.getYear()).trim();
-            String month = Integer.toString(mDateField.getMonth()).trim();
-            String date = Integer.toString(mDateField.getDayOfMonth()).trim();
+            EditText countryField = (EditText) findViewById(R.id.country_field);
+            String country = countryField.getText().toString();
+
+            EditText dirField = (EditText) findViewById(R.id.director_field);
+            String director = dirField.getText().toString();
+
+            EditText mainField = (EditText) findViewById(R.id.main_field);
+            String mainAct = mainField.getText().toString();
+
+            EditText suppField = (EditText) findViewById(R.id.support_field);
+            String supportAct = suppField.getText().toString();
+
+            EditText synopField = (EditText) findViewById(R.id.synopsis_field);
+            String synopsis = synopField.getText().toString();
+
+            EditText posterField = (EditText) findViewById(R.id.poster_url_field);
+            String poster = posterField.getText().toString();
+
+            EditText dirUrl = (EditText) findViewById(R.id.dir_url_field);
+            String dirPic = dirUrl.getText().toString();
+
+            EditText mainUrl = (EditText) findViewById(R.id.main_url_field);
+            String mainPic = mainUrl.getText().toString();
+
+            EditText supportUrl = (EditText) findViewById(R.id.support_url_field);
+            String supportPic = supportUrl.getText().toString();
+
+            DatePicker dateField = (DatePicker) findViewById(R.id.date_field);
+            String year = Integer.toString(dateField.getYear());
+            String month = Integer.toString(dateField.getMonth());
+            String date = Integer.toString(dateField.getDayOfMonth());
             String releaseDate = year + "." + month + "." + date;
 
-            Film newFilm = new Film(id, title, poster, country, year, synopsis, releaseDate, director, dirPic, mainAct, mainPic, supportAct, supportPic);
+            Film newFilm = new Film(title, poster, country, year, synopsis, releaseDate, director, dirPic, mainAct, mainPic, supportAct, supportPic);
             return newFilm;
         }
     }
-}
+}*/
