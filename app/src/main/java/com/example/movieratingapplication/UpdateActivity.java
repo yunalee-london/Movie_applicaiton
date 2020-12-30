@@ -26,7 +26,8 @@ import androidx.loader.content.Loader;
 
 import com.example.movieratingapplication.data.FilmContract;
 
-public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class UploadActivity extends AppCompatActivity implements LoaderManager
+.LoaderCallbacks<Cursor>{
     private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
     private static final int EXISTING_FILM_LOADER = 0;
     private Uri mCurrentFilmUri;
@@ -156,7 +157,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         } else {
             //This is an EXISTING film, so update the film with content URI:mCurrentFilmUri
             //and pass in the new ContentValues. Pass in null for the selection and selection args
-            //because mCurrentFilmUri will already identify the correct row in the db that we want to modify.
+            //because mCurrentFilmUri will already identify the correct row in the db that we
+            want to modify.
             int rowsAffected = getContentResolver().update(mCurrentFilmUri, values, null, null);
 
             //Toast message
@@ -192,7 +194,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             //"Up" arrow button in the app bar
             case android.R.id.home:
-                //If the film has not changed, continue with navigation up to parent activity to MainActivity
+                //If the film has not changed, continue with navigation up to parent activity to
+                MainActivity
                 if (!mFilmHasChanged) {
                     NavUtils.navigateUpFromSameTask(UploadActivity.this);
                     return true;
@@ -271,7 +274,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
             int currentFilmId = cursor.getColumnIndex(FilmContract.FilmEntry._ID);
             int titleColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_TITLE);
-            int imageUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
+            int imageUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry
+            .COLUMN_IMAGE_URL);
             int mainColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN);
             int supportColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT);
             int countryColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_COUNTRY);
@@ -281,7 +285,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             int dirColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIRECTOR);
             int dirUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIR_URL);
             int mainUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN_URL);
-            int suppUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
+            int suppUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry
+            .COLUMN_SUPPORT_URL);
 
             //Extract out the value from the Cursor for the given column index
             long filmId = cursor.getLong(currentFilmId);
@@ -356,7 +361,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-    private void showUnsavedChangesDialog(DialogInterface.OnClickListener discardButtonClickListener) {
+    private void showUnsavedChangesDialog(DialogInterface.OnClickListener
+    discardButtonClickListener) {
         //Create an AlterDialog.Builder and set the message, and click listeners
         //for the positive and negative buttons on the dialog.
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -516,7 +522,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             String date = Integer.toString(dateField.getDayOfMonth());
             String releaseDate = year + "." + month + "." + date;
 
-            Film newFilm = new Film(title, poster, country, year, synopsis, releaseDate, director, dirPic, mainAct, mainPic, supportAct, supportPic);
+            Film newFilm = new Film(title, poster, country, year, synopsis, releaseDate,
+            director, dirPic, mainAct, mainPic, supportAct, supportPic);
             return newFilm;
         }
     }

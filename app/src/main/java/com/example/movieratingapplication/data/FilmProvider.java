@@ -24,6 +24,7 @@ public class FilmProvider extends ContentProvider {
     private static final int FILM_ID = 101;
 
     private static final UriMatcher sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
+
     static {
         sUriMatcher.addURI(FilmContract.CONTENT_AUTHORITY, FilmContract.PATH_FILMS, FILMS);
         sUriMatcher.addURI(FilmContract.CONTENT_AUTHORITY, FilmContract.PATH_FILMS + "/#", FILM_ID);
@@ -53,12 +54,14 @@ public class FilmProvider extends ContentProvider {
         int match = sUriMatcher.match(uri);
         switch (match) {
             case FILMS:
-                cursor = db.query(FilmContract.FilmEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                cursor = db.query(FilmContract.FilmEntry.TABLE_NAME, projection, selection,
+                        selectionArgs, null, null, sortOrder);
                 break;
             case FILM_ID:
                 selection = FilmContract.FilmEntry._ID + "=?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                cursor = db.query(FilmContract.FilmEntry.TABLE_NAME, projection, selection, selectionArgs, null, null, sortOrder);
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                cursor = db.query(FilmContract.FilmEntry.TABLE_NAME, projection, selection,
+                        selectionArgs, null, null, sortOrder);
                 break;
             default:
                 throw new IllegalArgumentException("Cannot query unknown URI " + uri);
@@ -102,83 +105,83 @@ public class FilmProvider extends ContentProvider {
 
     private Uri insertFilm(Uri uri, ContentValues values) {
 
-            String title = values.getAsString(FilmContract.FilmEntry.COLUMN_TITLE);
-            if (title == null) {
-                throw new IllegalArgumentException("film requires a title");
-            }
+        String title = values.getAsString(FilmContract.FilmEntry.COLUMN_TITLE);
+        if (title == null) {
+            throw new IllegalArgumentException("film requires a title");
+        }
 
-            String country = values.getAsString(FilmContract.FilmEntry.COLUMN_COUNTRY);
-            if (country == null) {
-                throw new IllegalArgumentException("film requires a country");
-            }
+        String country = values.getAsString(FilmContract.FilmEntry.COLUMN_COUNTRY);
+        if (country == null) {
+            throw new IllegalArgumentException("film requires a country");
+        }
 
-            String year = values.getAsString(FilmContract.FilmEntry.COLUMN_YEAR);
-            if (year == null) {
-                throw new IllegalArgumentException("film requires a year");
-            }
+        String year = values.getAsString(FilmContract.FilmEntry.COLUMN_YEAR);
+        if (year == null) {
+            throw new IllegalArgumentException("film requires a year");
+        }
 
-            String poster = values.getAsString(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
-            if (poster == null) {
-                throw new IllegalArgumentException("film requires a poster url");
-            }
+        String poster = values.getAsString(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
+        if (poster == null) {
+            throw new IllegalArgumentException("film requires a poster url");
+        }
 
-            String synopsis = values.getAsString(FilmContract.FilmEntry.COLUMN_SYNOPSIS);
-            if (synopsis == null) {
-                throw new IllegalArgumentException("film requires a synopsis");
-            }
+        String synopsis = values.getAsString(FilmContract.FilmEntry.COLUMN_SYNOPSIS);
+        if (synopsis == null) {
+            throw new IllegalArgumentException("film requires a synopsis");
+        }
 
-            String releaseDate = values.getAsString(FilmContract.FilmEntry.COLUMN_RELEASE);
-            if (releaseDate == null) {
-                throw new IllegalArgumentException("Please pick a release date");
-            }
+        String releaseDate = values.getAsString(FilmContract.FilmEntry.COLUMN_RELEASE);
+        if (releaseDate == null) {
+            throw new IllegalArgumentException("Please pick a release date");
+        }
 
-            String director = values.getAsString(FilmContract.FilmEntry.COLUMN_DIRECTOR);
-            if (director == null) {
-                throw new IllegalArgumentException("film requires a director");
-            }
+        String director = values.getAsString(FilmContract.FilmEntry.COLUMN_DIRECTOR);
+        if (director == null) {
+            throw new IllegalArgumentException("film requires a director");
+        }
 
-            String mainAct = values.getAsString(FilmContract.FilmEntry.COLUMN_MAIN);
-            if (mainAct == null) {
-                throw new IllegalArgumentException("film requires a main act");
-            }
+        String mainAct = values.getAsString(FilmContract.FilmEntry.COLUMN_MAIN);
+        if (mainAct == null) {
+            throw new IllegalArgumentException("film requires a main act");
+        }
 
-            String supportAct = values.getAsString(FilmContract.FilmEntry.COLUMN_SUPPORT);
-            if (supportAct == null) {
-                throw new IllegalArgumentException("film requires a support act");
-            }
+        String supportAct = values.getAsString(FilmContract.FilmEntry.COLUMN_SUPPORT);
+        if (supportAct == null) {
+            throw new IllegalArgumentException("film requires a support act");
+        }
 
-            String dirPic = values.getAsString(FilmContract.FilmEntry.COLUMN_DIR_URL);
-            if (dirPic == null) {
-                throw new IllegalArgumentException("film requires a director url");
-            }
+        String dirPic = values.getAsString(FilmContract.FilmEntry.COLUMN_DIR_URL);
+        if (dirPic == null) {
+            throw new IllegalArgumentException("film requires a director url");
+        }
 
-            String mainPic = values.getAsString(FilmContract.FilmEntry.COLUMN_MAIN_URL);
-            if (mainPic == null) {
-                throw new IllegalArgumentException("film requires a url");
-            }
+        String mainPic = values.getAsString(FilmContract.FilmEntry.COLUMN_MAIN_URL);
+        if (mainPic == null) {
+            throw new IllegalArgumentException("film requires a url");
+        }
 
-            String supportPic = values.getAsString(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
-            if (supportPic == null) {
-                throw new IllegalArgumentException("film requires a url");
-            }
+        String supportPic = values.getAsString(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
+        if (supportPic == null) {
+            throw new IllegalArgumentException("film requires a url");
+        }
 
 
-            // Get writeable database
-            SQLiteDatabase database = mDbHelper.getWritableDatabase();
+        // Get writeable database
+        SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-            // Insert the new pet with the given values
-            long id = database.insert(FilmContract.FilmEntry.TABLE_NAME, null, values);
-            // If the ID is -1, then the insertion failed. Log an error and return null.
-            if (id == -1) {
-                Log.e(LOG_TAG, "Failed to insert row for---------------------------- " + uri);
-                return null;
-            }
+        // Insert the new pet with the given values
+        long id = database.insert(FilmContract.FilmEntry.TABLE_NAME, null, values);
+        // If the ID is -1, then the insertion failed. Log an error and return null.
+        if (id == -1) {
+            Log.e(LOG_TAG, "Failed to insert row for---------------------------- " + uri);
+            return null;
+        }
 
-            // Notify all listeners that the data has changed for the pet content URI
-            getContext().getContentResolver().notifyChange(uri, null);
+        // Notify all listeners that the data has changed for the pet content URI
+        getContext().getContentResolver().notifyChange(uri, null);
 
-            // Return the new URI with the ID (of the newly inserted row) appended at the end
-            return ContentUris.withAppendedId(uri, id);
+        // Return the new URI with the ID (of the newly inserted row) appended at the end
+        return ContentUris.withAppendedId(uri, id);
 
     }
 
@@ -194,41 +197,45 @@ public class FilmProvider extends ContentProvider {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case FILMS:
-                rowsDeleted= db.delete(FilmContract.FilmEntry.TABLE_NAME, selection, selectionArgs);
+                rowsDeleted = db.delete(FilmContract.FilmEntry.TABLE_NAME, selection,
+                        selectionArgs);
                 break;
             case FILM_ID:
                 selection = FilmContract.FilmEntry._ID + "=?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
-                rowsDeleted= db.delete(FilmContract.FilmEntry.TABLE_NAME, selection, selectionArgs);
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
+                rowsDeleted = db.delete(FilmContract.FilmEntry.TABLE_NAME, selection,
+                        selectionArgs);
                 break;
             default:
                 throw new IllegalArgumentException("Deletion is not supported for " + uri);
         }
         //if 1 or more rows were deleted, then notify all listeners that the data
         //at the given URI has changed
-        if (rowsDeleted !=0) {
+        if (rowsDeleted != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
-       return rowsDeleted;
+        return rowsDeleted;
     }
 
     @Override
-    public int update(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs) {
+    public int update(@NonNull Uri uri, @Nullable ContentValues values,
+                      @Nullable String selection, @Nullable String[] selectionArgs) {
         final int match = sUriMatcher.match(uri);
         switch (match) {
             case FILMS:
                 return updateFilm(uri, values, selection, selectionArgs);
             case FILM_ID:
                 selection = FilmContract.FilmEntry._ID + "=?";
-                selectionArgs = new String[] {String.valueOf(ContentUris.parseId(uri))};
+                selectionArgs = new String[]{String.valueOf(ContentUris.parseId(uri))};
                 return updateFilm(uri, values, selection, selectionArgs);
             default:
-                throw new IllegalArgumentException("Update is not supported for "+ uri);
+                throw new IllegalArgumentException("Update is not supported for " + uri);
         }
 
     }
 
-    private int updateFilm(@NonNull Uri uri, @Nullable ContentValues values, @Nullable String selection, @Nullable String[] selectionArgs){
+    private int updateFilm(@NonNull Uri uri, @Nullable ContentValues values,
+                           @Nullable String selection, @Nullable String[] selectionArgs) {
 
         if (values.containsKey(FilmContract.FilmEntry.COLUMN_TITLE)) {
             String title = values.getAsString(FilmContract.FilmEntry.COLUMN_TITLE);
@@ -294,11 +301,12 @@ public class FilmProvider extends ContentProvider {
         SQLiteDatabase db = mDbHelper.getWritableDatabase();
 
         //Perform the update on the db and get the number of rows affected
-        int rowsUpdated = db.update(FilmContract.FilmEntry.TABLE_NAME, values, selection, selectionArgs);
+        int rowsUpdated = db.update(FilmContract.FilmEntry.TABLE_NAME, values, selection,
+                selectionArgs);
 
         // if 1 or more rows were updated, then notify all listeners that the data
         // at the given URI has changed
-        if (rowsUpdated !=0) {
+        if (rowsUpdated != 0) {
             getContext().getContentResolver().notifyChange(uri, null);
         }
         //return the number of rows affected

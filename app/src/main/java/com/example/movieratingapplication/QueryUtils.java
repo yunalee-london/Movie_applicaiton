@@ -128,7 +128,8 @@ public class QueryUtils {
         private static String readFromStream(InputStream inputStream) throws IOException {
             StringBuilder output = new StringBuilder();
             if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+                InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
+                StandardCharsets.UTF_8);
                 BufferedReader reader = new BufferedReader(inputStreamReader);
                 String line = reader.readLine();
                 while (line != null) {
@@ -167,7 +168,8 @@ public class QueryUtils {
 
                 String supportImage = castCrew.getJSONObject(0).getString("cast2Image");
 
-                Film film = new Film(title, imageUrl, country, year, synopsis, release, director, dirImage, mainAct, mainImage, supportAct, supportImage);
+                Film film = new Film(title, imageUrl, country, year, synopsis, release, director,
+                 dirImage, mainAct, mainImage, supportAct, supportImage);
 
                 return film;
 
@@ -191,7 +193,8 @@ public class QueryUtils {
 
             // Try to parse the SAMPLE_JSON_RESPONSE. If there's a problem with the way the JSON
             // is formatted, a JSONException exception object will be thrown.
-            // Catch the exception so the app doesn't crash, and print the error message to the logs.
+            // Catch the exception so the app doesn't crash, and print the error message to the
+            logs.
             try {
 
                 // Create a JSONObject from the SAMPLE_JSON_RESPONSE string
@@ -211,7 +214,8 @@ public class QueryUtils {
                 }
 
             } catch (JSONException e) {
-                // If an error is thrown when executing any of the above statements in the "try" block,
+                // If an error is thrown when executing any of the above statements in the "try"
+                block,
                 // catch the exception here, so the app doesn't crash. Print a log message
                 // with the message from the exception.
                 Log.e("QueryUtils", "Problem parsing the film JSON results", e);

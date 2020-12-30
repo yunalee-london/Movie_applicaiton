@@ -82,7 +82,8 @@ public class QueryUtil {
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
+            StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
             while (line != null) {
@@ -161,7 +162,8 @@ public class QueryUtil {
 
             String supportImage = currentFilm.getString("cast2Image");
 
-            Film film = new Film(id, title, imageUrl, country, year, synopsis, release, director, dirImage, mainAct, mainImage, supportAct, supportImage);
+            Film film = new Film(id, title, imageUrl, country, year, synopsis, release, director,
+             dirImage, mainAct, mainImage, supportAct, supportImage);
 
             return film;
 

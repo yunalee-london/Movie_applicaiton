@@ -12,16 +12,16 @@ import android.provider.BaseColumns;
 //2. what are names and data types of the columns?
 public class FilmContract {
     /*1. outer class named BlankContract
-    * 2. Inner class named BlankEntry for each table in the db.
-    *    Each of these inner classes should implement a class called BaseColumns.
-    * 3. String constants for table name and for each of the headings*/
+     * 2. Inner class named BlankEntry for each table in the db.
+     *    Each of these inner classes should implement a class called BaseColumns.
+     * 3. String constants for table name and for each of the headings*/
     //To prevent someone from accidentally instantiating the contract class,
     //give it an empty constructor
     private FilmContract() {}
 
     public static final String CONTENT_AUTHORITY = "com.example.movieratingapplication";
 
-    public static final Uri BASE_CONTENT_URI = Uri.parse("content://"+CONTENT_AUTHORITY);
+    public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 
     public static final String PATH_FILMS = "films";
 

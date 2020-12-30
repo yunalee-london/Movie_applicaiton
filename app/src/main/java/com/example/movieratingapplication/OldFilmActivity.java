@@ -86,7 +86,8 @@ public class OldFilmActivity<clickListener> extends AppCompatActivity {
         supportTextView.setText(film.getSupport());
 
         TextView subTitleView = findViewById(R.id.subtitle);
-        subTitleView.setText(film.getMain()+ " & " + film.getSupport()+", " + film.getCountry()+ ", "+film.getYear());
+        subTitleView.setText(film.getMain()+ " & " + film.getSupport()+", " + film.getCountry()+
+        ", "+film.getYear());
 
         ImageView posterView = findViewById(R.id.imageUrl);
         String imageUrl = film.getImage();

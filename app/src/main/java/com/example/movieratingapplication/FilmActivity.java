@@ -19,7 +19,7 @@ import com.squareup.picasso.Picasso;
 public class FilmActivity extends AppCompatActivity {
     Uri mCurrentFilmUri;
 
-    private static final String LOG_TAG= FilmActivity.class.getSimpleName();
+    private static final String LOG_TAG = FilmActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,7 +39,7 @@ public class FilmActivity extends AppCompatActivity {
         relDateTextView.setText("Release Date: " + film.getRelease());
 
         TextView dirTextView = findViewById(R.id.director);
-        dirTextView.setText(film.getDir() + "\nDirector");
+        dirTextView.setText(film.getDirector() + "\nDirector");
 
         TextView mainTextView = findViewById(R.id.main);
         mainTextView.setText(film.getMain());
@@ -48,7 +48,7 @@ public class FilmActivity extends AppCompatActivity {
         supportTextView.setText(film.getSupport());
 
         TextView subTitleView = findViewById(R.id.subtitle);
-        subTitleView.setText(film.getMain()+ " & " + film.getSupport()+", " + film.getCountry()+ ", "+film.getYear());
+        subTitleView.setText(film.getMain() + " & " + film.getSupport() + ", " + film.getCountry() + ", " + film.getYear());
 
         ImageView posterView = findViewById(R.id.imageUrl);
         String imageUrl = film.getImage();
@@ -92,7 +92,7 @@ public class FilmActivity extends AppCompatActivity {
                 Intent newIntent = new Intent(FilmActivity.this, UploadActivity.class);
 
 
-                Log.v(LOG_TAG, "uri--------------------------------:" +mCurrentFilmUri);
+                Log.v(LOG_TAG, "uri--------------------------------:" + mCurrentFilmUri);
                 newIntent.setData(mCurrentFilmUri);
 
                 startActivity(newIntent);
@@ -103,7 +103,7 @@ public class FilmActivity extends AppCompatActivity {
 
                 int rowsDeleted = getContentResolver().delete(mCurrentFilmUri, null, null);
 
-                if (rowsDeleted ==0) {
+                if (rowsDeleted == 0) {
                     Toast.makeText(this, "deleting the film failed", Toast.LENGTH_SHORT).show();
 
                 } else {

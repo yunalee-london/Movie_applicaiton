@@ -39,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     FilmCursorAdapter mCursorAdapter;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,17 +76,24 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 int currentFilmId = cursor.getColumnIndex(FilmContract.FilmEntry._ID);
                 int titleColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_TITLE);
-                int imageUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
+                int imageUrlColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
                 int mainColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN);
-                int supportColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT);
-                int countryColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_COUNTRY);
+                int supportColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT);
+                int countryColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_COUNTRY);
                 int yearColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_YEAR);
-                int synopColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SYNOPSIS);
+                int synopColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SYNOPSIS);
                 int relColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_RELEASE);
                 int dirColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIRECTOR);
-                int dirUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIR_URL);
-                int mainUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN_URL);
-                int suppUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
+                int dirUrlColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIR_URL);
+                int mainUrlColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN_URL);
+                int suppUrlColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
 
                 //Read the film attributes from the Cursor for current film
                 long filmId = cursor.getLong(currentFilmId);
@@ -105,8 +111,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String filmSuppUrl = cursor.getString(suppUrlColumnIndex);
 
 
-
-                Film film = new Film(filmId, filmTitle, filmImageUrl, filmCountry, filmYear, filmSynopsis, filmRel, filmDir, filmDirUrl, filmMain, filmMainUrl, filmSupport, filmSuppUrl);                Intent intent = new Intent(MainActivity.this, FilmActivity.class);
+                Film film = new Film(filmId, filmTitle, filmImageUrl, filmCountry, filmYear,
+                        filmSynopsis, filmRel, filmDir, filmDirUrl, filmMain, filmMainUrl,
+                        filmSupport, filmSuppUrl);
+                Intent intent = new Intent(MainActivity.this, FilmActivity.class);
                 intent.putExtra("film", film);
                 startActivity(intent);
 
@@ -119,8 +127,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //ListView listView = (ListView) findViewById(R.id.list_view);
         //listView.setAdapter(filmAdapter);
 
-        FilmAsyncTask task = new FilmAsyncTask();
-        task.execute(requestURL);
+        /*FilmAsyncTask task = new FilmAsyncTask();
+        task.execute(requestURL);*/
 
 
         /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -137,25 +145,44 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
+    @Override
+    protected void onPostResume() {
+        super.onPostResume();
+        FilmAsyncTask task = new FilmAsyncTask();
+        task.execute(requestURL);
+
+    }
+
     private void insertFilm() {
-         //Create a ContentValues object where column names are the keys,
+        //Create a ContentValues object where column names are the keys,
         //and the film's attributes are the values.
         ContentValues values = new ContentValues();
         values.put(FilmContract.FilmEntry.COLUMN_TITLE, "her");
         values.put(FilmContract.FilmEntry.COLUMN_COUNTRY, "USA");
-        values.put(FilmContract.FilmEntry.COLUMN_IMAGE_URL, "https://upload.wikimedia.org/wikipedia/en/4/44/Her2013Poster.jpg");
+        values.put(FilmContract.FilmEntry.COLUMN_IMAGE_URL, "https://upload.wikimedia" +
+                ".org/wikipedia/en/4/44/Her2013Poster.jpg");
         values.put(FilmContract.FilmEntry.COLUMN_YEAR, "2013");
-        values.put(FilmContract.FilmEntry.COLUMN_SYNOPSIS, "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.");
+        values.put(FilmContract.FilmEntry.COLUMN_SYNOPSIS, "In a near future, a lonely writer " +
+                "develops an unlikely relationship with an operating system designed to meet his " +
+                "every need.");
         values.put(FilmContract.FilmEntry.COLUMN_RELEASE, "2014.02.14");
         values.put(FilmContract.FilmEntry.COLUMN_DIRECTOR, "Spike Jonze");
-        values.put(FilmContract.FilmEntry.COLUMN_DIR_URL, "https://m.media-amazon.com/images/M/MV5BMjE3MDkyNTMzNl5BMl5BanBnXkFtZTcwOTAxOTAyMw@@._V1_UY317_CR22,0,214,317_AL_.jpg");
+        values.put(FilmContract.FilmEntry.COLUMN_DIR_URL, "https://m.media-amazon" +
+                ".com/images/M/MV5BMjE3MDkyNTMzNl5BMl5BanBnXkFtZTcwOTAxOTAyMw@@._V1_UY317_CR22,0," +
+                "214,317_AL_.jpg");
         values.put(FilmContract.FilmEntry.COLUMN_MAIN, "Joaquin Phoenix");
-        values.put(FilmContract.FilmEntry.COLUMN_MAIN_URL, "https://m.media-amazon.com/images/M/MV5BZGMyY2Q4NTEtMWVkZS00NzcwLTkzNmQtYzBlMWZhZGNhMDhkXkEyXkFqcGdeQXVyNjk1MjYyNTA@._V1_UX214_CR0,0,214,317_AL_.jpg");
+        values.put(FilmContract.FilmEntry.COLUMN_MAIN_URL, "https://m.media-amazon" +
+                ".com/images/M" +
+                "/MV5BZGMyY2Q4NTEtMWVkZS00NzcwLTkzNmQtYzBlMWZhZGNhMDhkXkEyXkFqcGdeQXVyNjk1MjYyNTA" +
+                "@._V1_UX214_CR0,0,214,317_AL_.jpg");
         values.put(FilmContract.FilmEntry.COLUMN_SUPPORT, "Scarlett Johansson");
-        values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, "https://m.media-amazon.com/images/M/MV5BMTM3OTUwMDYwNl5BMl5BanBnXkFtZTcwNTUyNzc3Nw@@._V1_UY317_CR23,0,214,317_AL_.jpg");
+        values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, "https://m.media-amazon" +
+                ".com/images/M/MV5BMTM3OTUwMDYwNl5BMl5BanBnXkFtZTcwNTUyNzc3Nw@@._V1_UY317_CR23,0," +
+                "214,317_AL_.jpg");
 
         Uri newUri = getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -166,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); */// Do not iconify the widget; expand it by default
+        searchView.setIconifiedByDefault(false); */// Do not iconify the widget; expand it by
+        // default
         return true;
     }
 
@@ -186,12 +214,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             case R.id.action_search:
 
 
-
         }
         return super.onOptionsItemSelected(item);
     }
 
-    
+
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
@@ -214,7 +241,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         };
 
         //This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this, FilmContract.FilmEntry.CONTENT_URI, projection, null, null, null);
+        return new CursorLoader(this, FilmContract.FilmEntry.CONTENT_URI, projection, null, null,
+                null);
     }
 
     @Override
@@ -251,13 +279,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
 
             List<ContentValues> films = FilmUtils.fetchFilmData(requestURL);
-            return films;
-        }
 
-        @Override
-        protected void onPostExecute(List<ContentValues> films) {
-
-            mCursorAdapter.swapCursor(null);
+            MainActivity.this.getContentResolver().delete(FilmContract.FilmEntry.CONTENT_URI,
+                    null, null);
 
 
             // If there is a valid list of {@link filmValues}s, then add them to the adapter's
@@ -268,11 +292,18 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 saveFilmData(values);
 
             }
+            Log.v("MainActivity", "Number of films " + films.size());
+            return films;
+        }
 
+        @Override
+        protected void onPostExecute(List<ContentValues> films) {
 
-            }
+            Log.v(MainActivity.class.getSimpleName(), "completed writing to db");
+
         }
     }
+}
     
 
 

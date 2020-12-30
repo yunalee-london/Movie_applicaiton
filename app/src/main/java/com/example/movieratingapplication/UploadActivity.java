@@ -30,7 +30,7 @@ import java.io.DataOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor>{
+public class UploadActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
     //private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
     private static final String requestURL = "http://10.0.2.2:3001/";
     private static final int EXISTING_FILM_LOADER = 0;
@@ -154,14 +154,15 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
             //show a toast message
             if (newUri == null) {
-                Toast.makeText(this, "Adding a new film failed" , Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Adding a new film failed", Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(this, "Film added successfully" , Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Film added successfully", Toast.LENGTH_SHORT).show();
             }
         } else {
             //This is an EXISTING film, so update the film with content URI:mCurrentFilmUri
             //and pass in the new ContentValues. Pass in null for the selection and selection args
-            //because mCurrentFilmUri will already identify the correct row in the db that we want to modify.
+            //because mCurrentFilmUri will already identify the correct row in the db that we
+            // want to modify.
             int rowsAffected = getContentResolver().update(mCurrentFilmUri, values, null, null);
 
             //Toast message
@@ -189,7 +190,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             //"Save" menu option
             case R.id.action_save:
                 //saveFilm();
-                onButtonClickHttpPost httpPost= new onButtonClickHttpPost();
+                onButtonClickHttpPost httpPost = new onButtonClickHttpPost();
                 httpPost.sendPost();
 
                 finish();//Exit activity
@@ -200,7 +201,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                 return true;
             //"Up" arrow button in the app bar
             case android.R.id.home:
-                //If the film has not changed, continue with navigation up to parent activity to MainActivity
+                //If the film has not changed, continue with navigation up to parent activity to
+                // MainActivity
                 if (!mFilmHasChanged) {
                     NavUtils.navigateUpFromSameTask(UploadActivity.this);
                     return true;
@@ -222,6 +224,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         return super.onOptionsItemSelected(item);
 
     }
+
     //This method is called when the back button is pressed.
     @Override
     public void onBackPressed() {
@@ -267,9 +270,9 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     }
 
     @Override
-    public void onLoadFinished (Loader<Cursor> loader, Cursor cursor) {
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
         //Bail early if the cursor is null or there is less than 1 row in the cursor
-        if (cursor == null || cursor.getCount() <1 ) {
+        if (cursor == null || cursor.getCount() < 1) {
             return;
         }
 
@@ -279,7 +282,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
             int currentFilmId = cursor.getColumnIndex(FilmContract.FilmEntry._ID);
             int titleColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_TITLE);
-            int imageUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
+            int imageUrlColumnIndex =
+                    cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
             int mainColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN);
             int supportColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT);
             int countryColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_COUNTRY);
@@ -289,7 +293,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             int dirColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIRECTOR);
             int dirUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_DIR_URL);
             int mainUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN_URL);
-            int suppUrlColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
+            int suppUrlColumnIndex =
+                    cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
 
             //Extract out the value from the Cursor for the given column index
             long filmId = cursor.getLong(currentFilmId);
@@ -305,7 +310,6 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             String filmDirUrl = cursor.getString(dirUrlColumnIndex);
             String filmMainUrl = cursor.getString(mainUrlColumnIndex);
             String filmSuppUrl = cursor.getString(suppUrlColumnIndex);
-
 
 
             //Update the views on the screen with the values from the db
@@ -330,6 +334,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         }
         return Integer.parseInt(arrSplit[0]);
     }
+
     public int getRelMonth(String dateString) {
         String[] arrSplit = dateString.split("\\.");
         for (int i = 0; i < arrSplit.length; i++) {
@@ -337,6 +342,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         }
         return Integer.parseInt(arrSplit[1]);
     }
+
     public int getRelDate(String dateString) {
         String[] arrSplit = dateString.split("\\.");
         for (int i = 0; i < arrSplit.length; i++) {
@@ -344,7 +350,6 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         }
         return Integer.parseInt(arrSplit[2]);
     }
-
 
 
     @Override
@@ -432,7 +437,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
     }
 
 
-//Below code is used to connect the http server when contents.
+    //Below code is used to connect the http server when contents.
 
     public class onButtonClickHttpPost {
         public void sendPost() {
@@ -460,7 +465,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                         os.close();
 
                         Log.i("STATUS", String.valueOf(conn.getResponseCode()));
-                        Log.i("MSG" , conn.getResponseMessage());
+                        Log.i("MSG", conn.getResponseMessage());
 
                         conn.disconnect();
                     } catch (Exception e) {
@@ -490,7 +495,8 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             String date = Integer.toString(mDateField.getDayOfMonth()).trim();
             String releaseDate = year + "." + month + "." + date;
 
-            Film newFilm = new Film(id, title, poster, country, year, synopsis, releaseDate, director, dirPic, mainAct, mainPic, supportAct, supportPic);
+            Film newFilm = new Film(id, title, poster, country, year, synopsis, releaseDate,
+                    director, dirPic, mainAct, mainPic, supportAct, supportPic);
             return newFilm;
         }
     }

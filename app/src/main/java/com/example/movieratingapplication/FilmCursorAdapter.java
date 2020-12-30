@@ -63,7 +63,7 @@ public class FilmCursorAdapter extends CursorAdapter {
         //update the Views with the attributes for the current film
         textTitle.setText(filmTitle);
         Picasso.get().load(filmImageUrl).into(imageView);
-        subTitle.setText(filmMain+ " & " + filmSupport+", " + filmCountry+ ", "+ filmYear);
+        subTitle.setText(filmMain + " & " + filmSupport + ", " + filmCountry + ", " + filmYear);
 
     }
 }

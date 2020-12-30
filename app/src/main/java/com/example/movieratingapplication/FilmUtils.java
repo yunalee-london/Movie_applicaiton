@@ -36,8 +36,6 @@ public class FilmUtils {
     }
 
 
-
-
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -80,11 +78,11 @@ public class FilmUtils {
     }
 
 
-
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
+                    StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
             while (line != null) {
@@ -102,7 +100,7 @@ public class FilmUtils {
         }
 
         // Create an empty ArrayList that we can start adding films to
-        List<ContentValues> filmValues = new ArrayList<>() ;
+        List<ContentValues> filmValues = new ArrayList<>();
 
         try {
 
@@ -134,7 +132,7 @@ public class FilmUtils {
         return filmValues;
     }
 
-    private static ContentValues parsingJsonObj (JSONObject currentFilm) {
+    private static ContentValues parsingJsonObj(JSONObject currentFilm) {
 
         try {
             int id = 0;
@@ -163,8 +161,8 @@ public class FilmUtils {
 
             String supportPic = currentFilm.getString("supportImage");
 
-            Film film = new Film(id, title, poster, country, year, synopsis, releaseDate, director, dirPic, mainAct, mainPic, supportAct, supportPic);
-
+            Film film = new Film(id, title, poster, country, year, synopsis, releaseDate,
+                    director, dirPic, mainAct, mainPic, supportAct, supportPic);
 
 
             ContentValues values = new ContentValues();
@@ -180,7 +178,7 @@ public class FilmUtils {
             values.put(FilmContract.FilmEntry.COLUMN_MAIN_URL, mainPic);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT, supportAct);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, supportPic);
-
+            Log.v(MainActivity.class.getSimpleName(), "Film; " + values.toString());
             return values;
 
         } catch (JSONException e) {
