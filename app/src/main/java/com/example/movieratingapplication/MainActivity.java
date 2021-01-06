@@ -7,8 +7,6 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -121,28 +119,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
             }
         });
 
-
-        //filmAdapter = new FilmAdapter(this, new ArrayList<Film>());
-
-        //ListView listView = (ListView) findViewById(R.id.list_view);
-        //listView.setAdapter(filmAdapter);
-
-        /*FilmAsyncTask task = new FilmAsyncTask();
-        task.execute(requestURL);*/
-
-
-        /*listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Film film = (Film) parent.getItemAtPosition(position);
-                Intent intent = new Intent(MainActivity.this, FilmActivity.class);
-                intent.putExtra("film", film);
-                startActivity(intent);
-
-            }
-        });*/
-
-
     }
 
     @Override
@@ -153,7 +129,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    private void insertFilm() {
+    /*private void insertFilm() {
         //Create a ContentValues object where column names are the keys,
         //and the film's attributes are the values.
         ContentValues values = new ContentValues();
@@ -189,11 +165,11 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // This adds menu items to the app bar.
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
-        /*SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        *//*SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
         // Assumes current activity is the searchable activity
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false); */// Do not iconify the widget; expand it by
+        searchView.setIconifiedByDefault(false); *//*// Do not iconify the widget; expand it by
         // default
         return true;
     }
@@ -217,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         }
         return super.onOptionsItemSelected(item);
     }
-
+*/
 
     @NonNull
     @Override
@@ -280,6 +256,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
             List<ContentValues> films = FilmUtils.fetchFilmData(requestURL);
 
+            //Clear the table before loading it again.
             MainActivity.this.getContentResolver().delete(FilmContract.FilmEntry.CONTENT_URI,
                     null, null);
 

@@ -27,6 +27,7 @@ import com.example.movieratingapplication.data.FilmContract;
 import com.google.gson.Gson;
 
 import java.io.DataOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -190,14 +191,19 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             //"Save" menu option
             case R.id.action_save:
                 //saveFilm();
+                if (mCurrentFilmUri == null) {
                 onButtonClickHttpPost httpPost = new onButtonClickHttpPost();
                 httpPost.sendPost();
+                } else {
+                    onButtonClickHttpPut httpPut = new onButtonClickHttpPut();
+                }
 
                 finish();//Exit activity
                 return true;
             //"delete" menu option
-            case R.id.action_delete:
-                showDeleteConfirmationDialog();
+            case R.id.action_cancel:
+                showCancelConfirmationDialog();
+
                 return true;
             //"Up" arrow button in the app bar
             case android.R.id.home:
@@ -416,6 +422,31 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         alertDialog.show();
     }
 
+    private void showCancelConfirmationDialog() {
+        //Create an AlertDialog.builder and set the message and click listeners
+        //for the positive and negative buttons on the dialog.
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("Cancel Editing?");
+        builder.setPositiveButton(R.string.cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                deleteFilm();
+            }
+        });
+        builder.setNegativeButton(R.string.keep_editing, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                if (dialog != null) {
+                    dialog.dismiss();
+                }
+            }
+        });
+
+        //Create and show the AlertDialog.
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     //perform the deletion of the film in the db
     private void deleteFilm() {
         //Only perform the delete if this is an existing film.
@@ -429,7 +460,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
             if (rowsDeleted == 0) {
                 Toast.makeText(this, "Failed in deleting the film", Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(this, "Film deleted successfully", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Updating cancelled", Toast.LENGTH_SHORT).show();
             }
         }
         //close the activity
@@ -438,6 +469,43 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
 
 
     //Below code is used to connect the http server when contents.
+
+    public class onButtonClickHttpPut {
+        public void sendPut() {
+            Thread thread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        URL url = new URL(requestURL);
+                        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                        conn.setRequestMethod("PUT");
+                        conn.setRequestProperty("Content-Type", "application/json;charset=UTF-8");
+                        conn.setRequestProperty("Accept", "application/json");
+                        conn.setDoOutput(true);
+
+
+                        Gson gson = new Gson();
+                        String json = gson.toJson(submitFilm());
+
+                        OutputStreamWriter out = new OutputStreamWriter(
+                                conn.getOutputStream());
+                        out.write("Resource content");
+                        out.close();
+                        conn.getInputStream();
+
+                        Log.i("STATUS", String.valueOf(conn.getResponseCode()));
+                        Log.i("MSG", conn.getResponseMessage());
+
+                        conn.disconnect();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            Log.v(UploadActivity.class.getSimpleName(), "Put completed");
+            thread.start();
+        }
+    }
 
     public class onButtonClickHttpPost {
         public void sendPost() {
@@ -473,31 +541,35 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
                     }
                 }
             });
-
+            Log.v(UploadActivity.class.getSimpleName(), "Post completed");
             thread.start();
         }
-
-        private Film submitFilm() {
-            int id = 0;
-            String title = mTitleField.getText().toString().trim();
-            String poster = mPosterField.getText().toString().trim();
-            String country = mCountryField.getText().toString().trim();
-            String director = mDirField.getText().toString().trim();
-            String mainAct = mMainField.getText().toString().trim();
-            String supportAct = mSuppField.getText().toString().trim();
-            String synopsis = mSynopField.getText().toString().trim();
-
-            String dirPic = mDirUrl.getText().toString().trim();
-            String mainPic = mMainUrl.getText().toString().trim();
-            String supportPic = mSupportUrl.getText().toString().trim();
-            String year = Integer.toString(mDateField.getYear()).trim();
-            String month = Integer.toString(mDateField.getMonth()).trim();
-            String date = Integer.toString(mDateField.getDayOfMonth()).trim();
-            String releaseDate = year + "." + month + "." + date;
-
-            Film newFilm = new Film(id, title, poster, country, year, synopsis, releaseDate,
-                    director, dirPic, mainAct, mainPic, supportAct, supportPic);
-            return newFilm;
-        }
     }
-}
+
+
+
+    private Film submitFilm() {
+        int id = 0;
+        String title = mTitleField.getText().toString().trim();
+        String poster = mPosterField.getText().toString().trim();
+        String country = mCountryField.getText().toString().trim();
+        String director = mDirField.getText().toString().trim();
+        String mainAct = mMainField.getText().toString().trim();
+        String supportAct = mSuppField.getText().toString().trim();
+        String synopsis = mSynopField.getText().toString().trim();
+
+        String dirPic = mDirUrl.getText().toString().trim();
+        String mainPic = mMainUrl.getText().toString().trim();
+        String supportPic = mSupportUrl.getText().toString().trim();
+        String year = Integer.toString(mDateField.getYear()).trim();
+        String month = Integer.toString(mDateField.getMonth()).trim();
+        String date = Integer.toString(mDateField.getDayOfMonth()).trim();
+        String releaseDate = year + "." + month + "." + date;
+
+        Film newFilm = new Film(id, title, poster, country, year, synopsis, releaseDate,
+                director, dirPic, mainAct, mainPic, supportAct, supportPic);
+        return newFilm;
+    }
+
+
+    }
