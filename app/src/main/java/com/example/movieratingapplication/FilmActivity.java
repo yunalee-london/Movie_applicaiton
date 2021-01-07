@@ -92,7 +92,7 @@ public class FilmActivity extends AppCompatActivity {
         // User clicked on a menu option in the app bar overflow menu
         Intent intent = getIntent();
         Film film = intent.getParcelableExtra("film");
-        int id = (int) film.getId();
+        long id = (long) film.getId();
         Uri uri = ContentUris.withAppendedId(FilmContract.FilmEntry.CONTENT_URI, id);
         mCurrentFilmUri = uri;
 

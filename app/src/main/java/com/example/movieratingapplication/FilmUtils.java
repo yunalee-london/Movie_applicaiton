@@ -1,99 +1,38 @@
 package com.example.movieratingapplication;
 
-import android.content.ContentValues;
-import android.text.TextUtils;
 import android.util.Log;
 
-import com.example.movieratingapplication.data.FilmContract;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
+
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 public class FilmUtils {
     private static final String LOG_TAG = FilmUtils.class.getSimpleName();
-    private static final String requestURL = "http://10.0.2.2:3001/";
+    private static final String requestURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
+    //private static final String testURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
+    private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
 
-    private static URL createUrl(String stringUrl) {
-        URL url = null;
-        try {
-            url = new URL(requestURL);
-        } catch (MalformedURLException e) {
-            Log.e(LOG_TAG, "Problem building the URL ", e);
-        }
-        return url;
-    }
-
-
-    private static String makeHttpRequest(URL url) throws IOException {
+    private static String makeHttpRequest(String stringURL) throws IOException {
         String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
 
-        // If the URL is null, then return early.
-        if (url == null) {
-            return jsonResponse;
-        }
+        Request request = new Request.Builder()
+                .url(stringURL)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
 
-        HttpURLConnection urlConnection = null;
-        InputStream inputStream = null;
-        try {
-            urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000);
-            urlConnection.setConnectTimeout(15000);
-            urlConnection.setRequestMethod("GET");
-            urlConnection.connect();
-
-            // If the request was successful (response code 200),
-            // then read the input stream and parse the response.
-            if (urlConnection.getResponseCode() == 200) {
-                inputStream = urlConnection.getInputStream();
-                jsonResponse = readFromStream(inputStream);
-            } else {
-                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
-            }
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the film JSON results.", e);
-        } finally {
-            if (urlConnection != null) {
-                urlConnection.disconnect();
-            }
-            if (inputStream != null) {
-                // Closing the input stream could throw an IOException, which is why
-                // the makeHttpRequest(URL url) method signature specifies than an IOException
-                // could be thrown.
-                inputStream.close();
-            }
-        }
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+        Log.v(LOG_TAG, "-----------------------------Response: " + jsonResponse);
         return jsonResponse;
     }
 
 
-    private static String readFromStream(InputStream inputStream) throws IOException {
-        StringBuilder output = new StringBuilder();
-        if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
-                    StandardCharsets.UTF_8);
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-            String line = reader.readLine();
-            while (line != null) {
-                output.append(line);
-                line = reader.readLine();
-            }
-        }
-        return output.toString();
-    }
-
-    private static List<ContentValues> extractFeatureFromJson(String filmJSON) {
+    /*private static List<ContentValues> extractFeatureFromJson(String filmJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(filmJSON)) {
             return null;
@@ -128,11 +67,27 @@ public class FilmUtils {
         }
 
         // Return the list of films
-        Log.v("------------------------------FilmUtils", "films: " + filmValues);
+        Log.v("------------------------------OldFilmUtils", "films: " + filmValues);
         return filmValues;
+    }*/
+
+    private static String mostPopularFilms (String stringURL) {
+        String filmIdList = null;
+        try {
+            filmIdList = makeHttpRequest(allFilmIdURL);
+            Log.v(LOG_TAG, "Film Id JsonArray: " + filmIdList);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
+        }
+
+        return filmIdList;
     }
 
-    private static ContentValues parsingJsonObj(JSONObject currentFilm) {
+
+
+
+/*
+        private static ContentValues parsingJsonObj(JSONObject currentFilm) {
 
         try {
             int id = 0;
@@ -191,12 +146,13 @@ public class FilmUtils {
 
     public static List<ContentValues> fetchFilmData(String requestUrl) {
         // Create URL object
-        URL url = createUrl(requestUrl);
+        //URL url = createUrl(testURL);
+
 
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
-            jsonResponse = makeHttpRequest(url);
+            jsonResponse = makeHttpRequest(requestUrl);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
@@ -206,6 +162,95 @@ public class FilmUtils {
 
         // Return the list of {@link filmValues}s
         return films;
-    }
+    }*/
 
 }
+
+
+  /*private static URL createUrl(String stringUrl) {
+        URL url = null;
+        try {
+            url = new URL(testURL);
+        } catch (MalformedURLException e) {
+            Log.e(LOG_TAG, "Problem building the URL ", e);
+        }
+        return url;
+    }
+
+
+    private static String makeHttpRequest(URL url) throws IOException {
+        String jsonResponse = "";
+
+        // If the URL is null, then return early.
+        if (url == null) {
+            return jsonResponse;
+        }
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
+            urlConnection.setRequestMethod("GET");
+            urlConnection.connect();
+
+            // If the request was successful (response code 200),
+            // then read the input stream and parse the response.
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
+            }
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem retrieving the film JSON results.", e);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (inputStream != null) {
+                // Closing the input stream could throw an IOException, which is why
+                // the makeHttpRequest(URL url) method signature specifies than an IOException
+                // could be thrown.
+                inputStream.close();
+            }
+        }
+        Log.v(LOG_TAG, "JsonResponse-------------------:" + jsonResponse);
+        return jsonResponse;
+    }
+
+
+    private static String readFromStream(InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
+                    StandardCharsets.UTF_8);
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                output.append(line);
+                line = reader.readLine();
+            }
+        }
+        return output.toString();
+    }*/
+
+    /*public static ArrayList<String> castIdList(String stringURL) throws IOException, JSONException {
+        ArrayList<String> castIdList = new ArrayList<String>();
+        String jsonResponse = null;
+        ArrayList<String> filmIdList = mostPopularFilmIdList(allFilmIdURL);
+
+        for (int i = 0; i < filmIdList.size(); i++) {
+            jsonResponse = makeHttpRequest(castIdUrl + filmIdList.get(i));
+
+            JSONArray idJsonArray = new JSONArray(jsonResponse);
+
+            for (int j = 0; j < 2; i++) {
+                String[] id = idJsonArray.getString(i).split("/");
+                castIdList.add(id[2]);
+            }
+        }
+
+        Log.v(LOG_TAG, "--------------------------Cast Id Only Array: " + castIdList);
+        return castIdList;*/

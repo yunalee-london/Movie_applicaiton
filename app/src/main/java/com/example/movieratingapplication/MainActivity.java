@@ -22,6 +22,9 @@ import com.example.movieratingapplication.data.FilmContract;
 import com.example.movieratingapplication.data.FilmDbHelper;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import org.json.JSONException;
+
+import java.io.IOException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<Cursor> {
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String LOG_TAG = MainActivity.class.getSimpleName();
     //private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
     private static final String requestURL = "http://10.0.2.2:3001/";
+    private static final String testURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
+    private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
+
     private FilmDbHelper filmDbHelper;
     //initialize the loader
     private static final int FILM_LOADER = 0;
@@ -129,7 +135,102 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    /*private void insertFilm() {
+
+    @NonNull
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
+        //initialize the loader
+        //define a projection that specifies the columns from the table.
+        String[] projection = {
+                FilmContract.FilmEntry._ID,
+                FilmContract.FilmEntry.COLUMN_TITLE,
+                FilmContract.FilmEntry.COLUMN_IMAGE_URL,
+                FilmContract.FilmEntry.COLUMN_MAIN,
+                FilmContract.FilmEntry.COLUMN_SUPPORT,
+                FilmContract.FilmEntry.COLUMN_COUNTRY,
+                FilmContract.FilmEntry.COLUMN_YEAR,
+                FilmContract.FilmEntry.COLUMN_DIR_URL,
+                FilmContract.FilmEntry.COLUMN_DIRECTOR,
+                FilmContract.FilmEntry.COLUMN_MAIN_URL,
+                FilmContract.FilmEntry.COLUMN_SUPPORT_URL,
+                FilmContract.FilmEntry.COLUMN_SYNOPSIS,
+                FilmContract.FilmEntry.COLUMN_RELEASE,
+        };
+
+        //This loader will execute the ContentProvider's query method on a background thread
+        return new CursorLoader(this, FilmContract.FilmEntry.CONTENT_URI, projection, null, null,
+                null);
+    }
+
+    @Override
+    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
+        //Update FilmCursorAdapter with this new cursor containing updated film data
+        mCursorAdapter.swapCursor(data);
+    }
+
+    @Override
+    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
+        //callback called when the data needs to be deleted
+        mCursorAdapter.swapCursor(null);
+
+    }
+
+    private void saveFilmData(ContentValues values) {
+
+        //Determine if this is a new or existing film
+        // by checking if mCurrentFilmUri is null or not
+
+
+        Uri newUri = getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
+
+
+    }
+
+    public class FilmAsyncTask extends AsyncTask<String, Void, List<ContentValues>> {
+
+        @Override
+        protected List<ContentValues> doInBackground(String... urls) {
+            if (urls.length < 1 || urls[0] == null) {
+                Log.e("MainActivity", "did not fetch anything");
+                return null;
+            }
+
+            List<ContentValues> films = null;
+            try {
+                films = OldFilmUtils.fetchFilmData(allFilmIdURL);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            //Clear the table before loading it again.
+            MainActivity.this.getContentResolver().delete(FilmContract.FilmEntry.CONTENT_URI,
+                    null, null);
+
+
+            // If there is a valid list of {@link filmValues}s, then add them to the adapter's
+            // data set. This will trigger the ListView to update.
+            for (int i = 0; i < films.size(); i++) {
+
+                ContentValues values = films.get(i);
+                saveFilmData(values);
+
+            }
+            Log.v("MainActivity", "Number of films " + films.size());
+            return films;
+        }
+
+        @Override
+        protected void onPostExecute(List<ContentValues> films) {
+
+            Log.v(MainActivity.class.getSimpleName(), "completed writing to db");
+
+        }
+    }
+}
+    
+
+
+/*private void insertFilm() {
         //Create a ContentValues object where column names are the keys,
         //and the film's attributes are the values.
         ContentValues values = new ContentValues();
@@ -194,96 +295,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         return super.onOptionsItemSelected(item);
     }
 */
-
-    @NonNull
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, @Nullable Bundle args) {
-        //initialize the loader
-        //define a projection that specifies the columns from the table.
-        String[] projection = {
-                FilmContract.FilmEntry._ID,
-                FilmContract.FilmEntry.COLUMN_TITLE,
-                FilmContract.FilmEntry.COLUMN_IMAGE_URL,
-                FilmContract.FilmEntry.COLUMN_MAIN,
-                FilmContract.FilmEntry.COLUMN_SUPPORT,
-                FilmContract.FilmEntry.COLUMN_COUNTRY,
-                FilmContract.FilmEntry.COLUMN_YEAR,
-                FilmContract.FilmEntry.COLUMN_DIR_URL,
-                FilmContract.FilmEntry.COLUMN_DIRECTOR,
-                FilmContract.FilmEntry.COLUMN_MAIN_URL,
-                FilmContract.FilmEntry.COLUMN_SUPPORT_URL,
-                FilmContract.FilmEntry.COLUMN_SYNOPSIS,
-                FilmContract.FilmEntry.COLUMN_RELEASE,
-        };
-
-        //This loader will execute the ContentProvider's query method on a background thread
-        return new CursorLoader(this, FilmContract.FilmEntry.CONTENT_URI, projection, null, null,
-                null);
-    }
-
-    @Override
-    public void onLoadFinished(@NonNull Loader<Cursor> loader, Cursor data) {
-        //Update FilmCursorAdapter with this new cursor containing updated film data
-        mCursorAdapter.swapCursor(data);
-    }
-
-    @Override
-    public void onLoaderReset(@NonNull Loader<Cursor> loader) {
-        //callback called when the data needs to be deleted
-        mCursorAdapter.swapCursor(null);
-
-    }
-
-    private void saveFilmData(ContentValues values) {
-
-        //Determine if this is a new or existing film
-        // by checking if mCurrentFilmUri is null or not
-
-
-        Uri newUri = getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
-
-
-    }
-
-    public class FilmAsyncTask extends AsyncTask<String, Void, List<ContentValues>> {
-
-        @Override
-        protected List<ContentValues> doInBackground(String... urls) {
-            if (urls.length < 1 || urls[0] == null) {
-                Log.e("MainActivity", "did not fetch anything");
-                return null;
-            }
-
-            List<ContentValues> films = FilmUtils.fetchFilmData(requestURL);
-
-            //Clear the table before loading it again.
-            MainActivity.this.getContentResolver().delete(FilmContract.FilmEntry.CONTENT_URI,
-                    null, null);
-
-
-            // If there is a valid list of {@link filmValues}s, then add them to the adapter's
-            // data set. This will trigger the ListView to update.
-            for (int i = 0; i < films.size(); i++) {
-
-                ContentValues values = films.get(i);
-                saveFilmData(values);
-
-            }
-            Log.v("MainActivity", "Number of films " + films.size());
-            return films;
-        }
-
-        @Override
-        protected void onPostExecute(List<ContentValues> films) {
-
-            Log.v(MainActivity.class.getSimpleName(), "completed writing to db");
-
-        }
-    }
-}
-    
-
-
 
 
 

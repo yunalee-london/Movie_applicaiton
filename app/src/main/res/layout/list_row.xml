@@ -13,34 +13,36 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="8dp"
-    android:background="@color/gray_800"
+    android:background="@color/linen"
     >
     <ImageView
         android:id="@+id/poster_list"
         android:layout_width="match_parent"
         android:layout_height="200dp"
-        android:scaleType="centerCrop"
+        android:scaleType="fitStart"
         />
     <TextView
         android:id="@+id/subtitle_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
         android:fontFamily="sans-serif-light"
         android:textSize="18sp"
-        android:textStyle="bold"
-        android:textColor="@color/white"
+        android:textStyle="italic"
+        android:textColor="@color/gray_800"
         android:padding="10dp"
         />
     <TextView
         android:id="@+id/title_list"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
         android:fontFamily="sans-serif-light"
         android:paddingHorizontal="10dp"
-        android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textColor="@color/gray_800"
+        android:textSize="26sp"
         android:textStyle="bold" />
 </RelativeLayout>
 </androidx.cardview.widget.CardView>
