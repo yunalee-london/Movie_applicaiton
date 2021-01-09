@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.movieratingapplication.data.FilmContract;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
 
@@ -36,6 +38,15 @@ public class FilmActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_film);
+
+        FloatingActionButton playFab = (FloatingActionButton) findViewById(R.id.playFab);
+        playFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(FilmActivity.this, VideoActivity.class);
+                startActivity(intent);
+            }
+        });
 
         Intent intent = getIntent();
         Film film = intent.getParcelableExtra("film");

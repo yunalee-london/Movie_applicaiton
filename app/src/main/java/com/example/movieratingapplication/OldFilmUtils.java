@@ -49,7 +49,7 @@ public class OldFilmUtils {
 
             JSONArray idJsonArray = new JSONArray(jsonResponse);
 
-            for (int i=0; i < 10; i++) {
+            for (int i=0; i < 1; i++) {
                 String[] id = idJsonArray.getString(i).split("/");
                 filmIdList.add(id[2]);
             }

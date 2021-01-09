@@ -27,8 +27,7 @@
             android:textSize="14sp"
             android:textColor="@color/white"
             android:padding="10dp"
-            android:textStyle="italic|bold"
-           />
+            android:textStyle="italic|bold" />
         <TextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
@@ -40,6 +39,16 @@
             android:textColor="@color/white"
             android:paddingHorizontal ="10dp"
             android:textStyle="bold"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/playFab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="10dp"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/ic_baseline_play_arrow_24"/>
+
     </RelativeLayout>
 
     <LinearLayout
@@ -48,6 +57,7 @@
         android:layout_height="wrap_content"
         android:layout_weight="0"
         android:orientation="vertical">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
