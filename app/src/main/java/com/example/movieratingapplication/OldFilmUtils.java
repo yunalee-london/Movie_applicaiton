@@ -24,6 +24,9 @@ public class OldFilmUtils {
     private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
     private static final String filmOverviewUrl = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=";
     private static final String VIDEO_ID_URL = "https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movie-details&imdb=";
+    private static final String CAST_ID_URL = "https://imdb8.p.rapidapi.com/title/get-top-cast?tconst=";
+    private static final String MAIN_ACT_URL = "https://imdb8.p.rapidapi.com/actors/get-bio?nconst=";
+    private static final String CREW_URL = "https://imdb8.p.rapidapi.com/title/get-top-crew?tconst=";
 
     private static String makeHttpRequest(String stringURL) throws IOException {
         String jsonResponse = "";
@@ -67,7 +70,7 @@ public class OldFilmUtils {
         return videoId;
     }
 
-    public static ArrayList<String> mostPopularFilmIdList (String stringURL) {
+    public static ArrayList<String> mostPopularFilmIdList () {
         ArrayList<String> filmIdList= new ArrayList<String>();
         String jsonResponse = null;
         try {
@@ -155,17 +158,34 @@ public class OldFilmUtils {
             String releaseDate = currentFilm.getString("releaseDate");
 
 
-            String director = "director";
+            JSONObject directorJson = getDirectorJson(imdb);
 
-            String dirPic = imageJsonObj.getString("url");
+            JSONObject directorObj = (JSONObject) directorJson.getJSONArray("directors").get(0);
 
-            String mainAct = "main";
+            String director = directorObj.getString("name");
 
-            String mainPic = imageJsonObj.getString("url");
+            JSONObject imageDirObj = directorObj.getJSONObject("image");
 
-            String supportAct = "support";
+            String dirPic = imageDirObj.getString("url");
 
-            String supportPic = imageJsonObj.getString("url");
+
+            JSONObject mainJson = getMainActJson(imdb);
+
+            String mainAct = mainJson.getString("name");
+
+            JSONObject mainImageJson = mainJson.getJSONObject("image");
+
+            String mainPic = mainImageJson.getString("url");
+
+
+            JSONObject supportActJson = getSupportActJson(imdb);
+
+            String supportAct = supportActJson.getString("name");
+
+            JSONObject supportImageJson = supportActJson.getJSONObject("image");
+
+            String supportPic = supportImageJson.getString("url");
+
 
             Film film = new Film(id, imdb, title, poster, country, year, synopsis, releaseDate,
                     director, dirPic, mainAct, mainPic, supportAct, supportPic);
@@ -196,10 +216,101 @@ public class OldFilmUtils {
         return null;
     }
 
+    private static ArrayList<String> getTopCastIds(String imdbId) throws IOException,
+            JSONException {
+        ArrayList<String> castIdList = new ArrayList<>();
+
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(CAST_ID_URL + imdbId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+
+        JSONArray castIdJsonArray = new JSONArray(jsonResponse);
+        for (int i=0; i<2; i++) {
+            String[] castId = castIdJsonArray.getString(i).split("/");
+            castIdList.add(castId[2]);
+        }
+        Log.v(LOG_TAG, "castIdList: " + castIdList);
+        return castIdList;
+
+    }
+
+    private static JSONObject getMainActJson (String imdbId) throws IOException, JSONException {
+        String mainId = getTopCastIds(imdbId).get(0);
+
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(MAIN_ACT_URL + mainId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+        JSONObject mainActData = new JSONObject(jsonResponse);
+        Log.v(LOG_TAG, "MAIN ACT JSON: " + mainActData);
+        return mainActData;
+
+    }
+
+    private static JSONObject getSupportActJson (String imdbId) throws IOException, JSONException {
+        String supportId = getTopCastIds(imdbId).get(1);
+
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(MAIN_ACT_URL + supportId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+        JSONObject suppActData = new JSONObject(jsonResponse);
+        Log.v(LOG_TAG, "SUPPORT ACT JSON: " + suppActData);
+
+        return suppActData;
+
+    }
+
+    private static JSONObject getDirectorJson (String filmId) throws IOException, JSONException {
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(CREW_URL+filmId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+
+        JSONObject directorData = new JSONObject(jsonResponse);
+
+        return directorData;
+
+    }
+
+
 
     public static List<ContentValues> fetchFilmData(String requestUrl) throws IOException,
             JSONException {
-        ArrayList<String> filmIdList = mostPopularFilmIdList(requestUrl);
+        ArrayList<String> filmIdList = mostPopularFilmIdList();
         JSONArray filmsJsonArray = new JSONArray();
         String jsonResponse = null;
         for (int i=0; i < filmIdList.size(); i++) {
