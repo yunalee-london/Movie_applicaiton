@@ -1,8 +1,26 @@
+/*
 package com.example.movieratingapplication;
 
+import android.content.ContentValues;
+import android.text.TextUtils;
 import android.util.Log;
 
+import com.example.movieratingapplication.data.FilmContract;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
+import java.util.List;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -14,25 +32,10 @@ public class FilmUtils {
     //private static final String testURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
     private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
 
-    private static String makeHttpRequest(String stringURL) throws IOException {
-        String jsonResponse = "";
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(stringURL)
-                .get()
-                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
-                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
-                .build();
-
-        Response response = client.newCall(request).execute();
-        jsonResponse = response.body().string();
-        Log.v(LOG_TAG, "-----------------------------Response: " + jsonResponse);
-        return jsonResponse;
-    }
 
 
-    /*private static List<ContentValues> extractFeatureFromJson(String filmJSON) {
+
+private static List<ContentValues> extractFeatureFromJson(String filmJSON) {
         // If the JSON string is empty or null, then return early.
         if (TextUtils.isEmpty(filmJSON)) {
             return null;
@@ -69,24 +72,11 @@ public class FilmUtils {
         // Return the list of films
         Log.v("------------------------------OldFilmUtils", "films: " + filmValues);
         return filmValues;
-    }*/
-
-    private static String mostPopularFilms (String stringURL) {
-        String filmIdList = null;
-        try {
-            filmIdList = makeHttpRequest(allFilmIdURL);
-            Log.v(LOG_TAG, "Film Id JsonArray: " + filmIdList);
-        } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem making the HTTP request.", e);
-        }
-
-        return filmIdList;
     }
 
 
 
 
-/*
         private static ContentValues parsingJsonObj(JSONObject currentFilm) {
 
         try {
@@ -146,7 +136,7 @@ public class FilmUtils {
 
     public static List<ContentValues> fetchFilmData(String requestUrl) {
         // Create URL object
-        //URL url = createUrl(testURL);
+        URL url = createUrl(testURL);
 
 
         // Perform HTTP request to the URL and receive a JSON response back
@@ -162,12 +152,12 @@ public class FilmUtils {
 
         // Return the list of {@link filmValues}s
         return films;
-    }*/
+    }
 
 }
 
 
-  /*private static URL createUrl(String stringUrl) {
+  private static URL createUrl(String stringUrl) {
         URL url = null;
         try {
             url = new URL(testURL);
@@ -234,9 +224,11 @@ public class FilmUtils {
             }
         }
         return output.toString();
-    }*/
+    }
 
-    /*public static ArrayList<String> castIdList(String stringURL) throws IOException, JSONException {
+*/
+/*
+public static ArrayList<String> castIdList(String stringURL) throws IOException, JSONException {
         ArrayList<String> castIdList = new ArrayList<String>();
         String jsonResponse = null;
         ArrayList<String> filmIdList = mostPopularFilmIdList(allFilmIdURL);
@@ -254,3 +246,4 @@ public class FilmUtils {
 
         Log.v(LOG_TAG, "--------------------------Cast Id Only Array: " + castIdList);
         return castIdList;*/
+

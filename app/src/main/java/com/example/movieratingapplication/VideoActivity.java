@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.media.MediaPlayer;
@@ -123,4 +124,4 @@ public class VideoActivity extends AppCompatActivity {
             mVideoView.pause();
         }
     }
-}
+}*/

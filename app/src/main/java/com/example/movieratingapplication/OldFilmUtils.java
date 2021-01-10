@@ -23,6 +23,7 @@ public class OldFilmUtils {
     //private static final String testURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
     private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
     private static final String filmOverviewUrl = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=";
+    private static final String VIDEO_ID_URL = "https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movie-details&imdb=";
 
     private static String makeHttpRequest(String stringURL) throws IOException {
         String jsonResponse = "";
@@ -39,6 +40,24 @@ public class OldFilmUtils {
         jsonResponse = response.body().string();
         Log.v(LOG_TAG, "-----------------------------JsonResponse: " + jsonResponse);
         return jsonResponse;
+    }
+
+    private static String getVideoId (String filmId) {
+        String videoId = "";
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequest(VIDEO_ID_URL + filmId);
+
+            JSONObject video_response = new JSONObject(jsonResponse);
+            videoId = video_response.getString("youtube_trailer_key");
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return videoId;
     }
 
     public static ArrayList<String> mostPopularFilmIdList (String stringURL) {

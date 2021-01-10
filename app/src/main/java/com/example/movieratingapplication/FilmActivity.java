@@ -43,7 +43,7 @@ public class FilmActivity extends AppCompatActivity {
         playFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FilmActivity.this, VideoActivity.class);
+                Intent intent = new Intent(FilmActivity.this, YouTubePlayerActivity.class);
                 startActivity(intent);
             }
         });
