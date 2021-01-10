@@ -42,6 +42,7 @@ public class FilmContract {
 
         public final static String TABLE_NAME = "films";
         public final static String _ID = BaseColumns._ID;
+        public final static String COLUMN_IMDB = "imdb";
         public final static String COLUMN_TITLE = "title";
         public final static String COLUMN_COUNTRY = "country";
         public final static String COLUMN_IMAGE_URL = "imageURL";

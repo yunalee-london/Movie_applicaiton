@@ -30,6 +30,7 @@ import okhttp3.Response;
 
 public class FilmActivity extends AppCompatActivity {
     Uri mCurrentFilmUri;
+    private String mCurrentFilmImdb;
     private static final String requestURL = "http://10.0.2.2:3001/";
 
     private static final String LOG_TAG = FilmActivity.class.getSimpleName();
@@ -44,12 +45,16 @@ public class FilmActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FilmActivity.this, YouTubePlayerActivity.class);
+                intent.putExtra("imdb", mCurrentFilmImdb);
                 startActivity(intent);
             }
+
         });
 
         Intent intent = getIntent();
         Film film = intent.getParcelableExtra("film");
+
+        mCurrentFilmImdb = film.getImdb();
 
         TextView titleTextView = findViewById(R.id.title);
         titleTextView.setText(film.getTitle());
@@ -90,6 +95,7 @@ public class FilmActivity extends AppCompatActivity {
 
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
@@ -122,7 +128,7 @@ public class FilmActivity extends AppCompatActivity {
                 return true;
             // Respond to a click on the "Delete all entries" menu option
             case R.id.action_delete_a_film:
-                Film filmToDelete = new Film(film.getId(), film.getTitle(), film.getImage(), film.getCountry(), film.getYear(), film.getSynopsis(), film.getRelease(), film.getDirector(), film.getDirImage(), film.getMain(), film.getMainImage(), film.getSupport(), film.getSupportImage());
+                Film filmToDelete = new Film(film.getId(), film.getImdb(), film.getTitle(), film.getImage(), film.getCountry(), film.getYear(), film.getSynopsis(), film.getRelease(), film.getDirector(), film.getDirImage(), film.getMain(), film.getMainImage(), film.getSupport(), film.getSupportImage());
                 onButtonClickHttpDelete httpDelete = new onButtonClickHttpDelete();
                 httpDelete.sendDelete(filmToDelete);
                 /*

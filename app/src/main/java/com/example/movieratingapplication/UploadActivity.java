@@ -557,6 +557,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         String mainAct = mMainField.getText().toString().trim();
         String supportAct = mSuppField.getText().toString().trim();
         String synopsis = mSynopField.getText().toString().trim();
+        String imdb = "";
 
         String dirPic = mDirUrl.getText().toString().trim();
         String mainPic = mMainUrl.getText().toString().trim();
@@ -566,7 +567,7 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         String date = Integer.toString(mDateField.getDayOfMonth()).trim();
         String releaseDate = year + "." + month + "." + date;
 
-        Film newFilm = new Film(id, title, poster, country, year, synopsis, releaseDate,
+        Film newFilm = new Film(id, imdb, title, poster, country, year, synopsis, releaseDate,
                 director, dirPic, mainAct, mainPic, supportAct, supportPic);
         return newFilm;
     }

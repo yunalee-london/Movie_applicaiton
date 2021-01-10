@@ -17,6 +17,7 @@ public class FilmDbHelper extends SQLiteOpenHelper {
         String SQL_CREATE_ENTRIES = "CREATE TABLE " + FilmContract.FilmEntry.TABLE_NAME + "("
                 + FilmContract.FilmEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + FilmContract.FilmEntry.COLUMN_TITLE + " TEXT NOT NULL, "
+                + FilmContract.FilmEntry.COLUMN_IMDB + " TEXT NOT NULL, "
                 + FilmContract.FilmEntry.COLUMN_COUNTRY + " TEXT NOT NULL,"
                 + FilmContract.FilmEntry.COLUMN_IMAGE_URL + " TEXT NOT NULL, "
                 + FilmContract.FilmEntry.COLUMN_YEAR + " TEXT NOT NULL, "

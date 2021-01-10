@@ -79,6 +79,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 Cursor cursor = (Cursor) parent.getItemAtPosition(position);
 
                 int currentFilmId = cursor.getColumnIndex(FilmContract.FilmEntry._ID);
+                int imdbColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMDB);
                 int titleColumnIndex = cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_TITLE);
                 int imageUrlColumnIndex =
                         cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_IMAGE_URL);
@@ -101,6 +102,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
                 //Read the film attributes from the Cursor for current film
                 long filmId = cursor.getLong(currentFilmId);
+                String filmImdb = cursor.getString(imdbColumnIndex);
                 String filmTitle = cursor.getString(titleColumnIndex);
                 String filmImageUrl = cursor.getString(imageUrlColumnIndex);
                 String filmMain = cursor.getString(mainColumnIndex);
@@ -115,7 +117,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String filmSuppUrl = cursor.getString(suppUrlColumnIndex);
 
 
-                Film film = new Film(filmId, filmTitle, filmImageUrl, filmCountry, filmYear,
+                Film film = new Film(filmId, filmImdb, filmTitle, filmImageUrl, filmCountry, filmYear,
                         filmSynopsis, filmRel, filmDir, filmDirUrl, filmMain, filmMainUrl,
                         filmSupport, filmSuppUrl);
                 Intent intent = new Intent(MainActivity.this, FilmActivity.class);
@@ -143,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //define a projection that specifies the columns from the table.
         String[] projection = {
                 FilmContract.FilmEntry._ID,
+                FilmContract.FilmEntry.COLUMN_IMDB,
                 FilmContract.FilmEntry.COLUMN_TITLE,
                 FilmContract.FilmEntry.COLUMN_IMAGE_URL,
                 FilmContract.FilmEntry.COLUMN_MAIN,

@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class Film implements Parcelable {
     private final long id;
+    private final String imdb;
     private final String title;
     private final String image;
     private final String country;
@@ -19,10 +20,11 @@ public class Film implements Parcelable {
     private final String supportImage;
 
 
-    public Film(long id, String filmTitle, String imageUrl, String relCountry, String relYear,
+    public Film(long id, String imdb, String filmTitle, String imageUrl, String relCountry, String relYear,
                 String story, String relDate, String director, String dirPhoto, String mainAct,
                 String mainPhoto, String supportAct, String supportPhoto) {
         this.id = id;
+        this.imdb = imdb;
         title = filmTitle;
         image = imageUrl;
         country = relCountry;
@@ -39,6 +41,7 @@ public class Film implements Parcelable {
 
     protected Film(Parcel in) {
         id = in.readLong();
+        imdb = in.readString();
         title = in.readString();
         image = in.readString();
         country = in.readString();
@@ -51,6 +54,7 @@ public class Film implements Parcelable {
         mainImage = in.readString();
         support = in.readString();
         supportImage = in.readString();
+
     }
 
     public static final Creator<Film> CREATOR = new Creator<Film>() {
@@ -66,6 +70,8 @@ public class Film implements Parcelable {
     };
 
     public long getId() {return id;}
+
+    public String getImdb() {return imdb;}
 
     public String getTitle() {return title;}
 
@@ -100,6 +106,7 @@ public class Film implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeLong(id);
+        dest.writeString(imdb);
         dest.writeString(title);
         dest.writeString(image);
         dest.writeString(country);

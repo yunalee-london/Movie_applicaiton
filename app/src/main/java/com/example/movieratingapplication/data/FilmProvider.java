@@ -110,6 +110,11 @@ public class FilmProvider extends ContentProvider {
             throw new IllegalArgumentException("film requires a title");
         }
 
+        String imdb = values.getAsString(FilmContract.FilmEntry.COLUMN_IMDB);
+        if (imdb == null) {
+            throw new IllegalArgumentException("film requires a title");
+        }
+
         String country = values.getAsString(FilmContract.FilmEntry.COLUMN_COUNTRY);
         if (country == null) {
             throw new IllegalArgumentException("film requires a country");
@@ -169,7 +174,7 @@ public class FilmProvider extends ContentProvider {
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
 
-        // Insert the new pet with the given values
+        // Insert the new film with the given values
         long id = database.insert(FilmContract.FilmEntry.TABLE_NAME, null, values);
         // If the ID is -1, then the insertion failed. Log an error and return null.
         if (id == -1) {

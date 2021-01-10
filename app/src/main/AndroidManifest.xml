@@ -15,10 +15,10 @@
         <activity
             android:name=".YouTubePlayerActivity"
             android:label="Play Trailer"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".FilmActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
+                android:value=".FilmActivity" />
         </activity>
         <activity
             android:name=".MainActivity"

@@ -42,21 +42,28 @@ public class OldFilmUtils {
         return jsonResponse;
     }
 
-    private static String getVideoId (String filmId) {
+    public static String getVideoId (String filmId) throws IOException, JSONException {
         String videoId = "";
-        String jsonResponse = null;
-        try {
-            jsonResponse = makeHttpRequest(VIDEO_ID_URL + filmId);
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
 
-            JSONObject video_response = new JSONObject(jsonResponse);
-            videoId = video_response.getString("youtube_trailer_key");
+        Request request = new Request.Builder()
+                .url(VIDEO_ID_URL+filmId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "movies-tvshows-data-imdb.p.rapidapi.com")
+                .build();
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
 
+        Log.v (LOG_TAG, "----------------videoidjson: " +jsonResponse);
+
+        JSONObject video_response = new JSONObject(jsonResponse);
+
+        videoId = video_response.getString("youtube_trailer_key");
+
+        Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
         return videoId;
     }
 
@@ -119,9 +126,11 @@ public class OldFilmUtils {
     private static ContentValues parsingJsonObj(JSONObject currentFilm) throws IOException {
 
         try {
-           /* String[] idParsing = currentFilm.getString("id").split("/");
+            String[] idParsing = currentFilm.getString("id").split("/");
 
-            String id = idParsing[2];*/
+            String imdb = idParsing[2];
+
+            Log.v(LOG_TAG, "imdb: " + imdb);
 
             int id = 0;
 
@@ -158,12 +167,13 @@ public class OldFilmUtils {
 
             String supportPic = imageJsonObj.getString("url");
 
-            Film film = new Film(id, title, poster, country, year, synopsis, releaseDate,
+            Film film = new Film(id, imdb, title, poster, country, year, synopsis, releaseDate,
                     director, dirPic, mainAct, mainPic, supportAct, supportPic);
 
 
 
             ContentValues values = new ContentValues();
+            values.put(FilmContract.FilmEntry.COLUMN_IMDB, imdb);
             values.put(FilmContract.FilmEntry.COLUMN_TITLE, title);
             values.put(FilmContract.FilmEntry.COLUMN_COUNTRY, country);
             values.put(FilmContract.FilmEntry.COLUMN_IMAGE_URL, poster);
@@ -176,7 +186,7 @@ public class OldFilmUtils {
             values.put(FilmContract.FilmEntry.COLUMN_MAIN_URL, mainPic);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT, supportAct);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, supportPic);
-            Log.v(LOG_TAG, "Film; " + values.toString());
+            Log.v(LOG_TAG, "FilmValues : " + values.toString());
             return values;
 
         } catch (JSONException e) {

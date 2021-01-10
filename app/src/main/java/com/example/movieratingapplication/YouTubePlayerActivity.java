@@ -1,5 +1,6 @@
 package com.example.movieratingapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -9,6 +10,10 @@ import com.google.android.youtube.player.YouTubeBaseActivity;
 import com.google.android.youtube.player.YouTubeInitializationResult;
 import com.google.android.youtube.player.YouTubePlayer;
 import com.google.android.youtube.player.YouTubePlayerView;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 public class YouTubePlayerActivity extends YouTubeBaseActivity {
     private static final String API_KEY = "AIzaSyDhobepN1rZAuOkoBdyNYw0cpkmgFHFQcQ";
@@ -24,8 +29,10 @@ public class YouTubePlayerActivity extends YouTubeBaseActivity {
         setContentView(R.layout.activity_youtube_player);
         Log.v(LOG_TAG, "onCreate: Starting");
 
+
         mPlayButton = (Button) findViewById(R.id.play_button);
         mYouTubePlayerView = findViewById(R.id.youtubeplayer);
+
 
         mOnInitializedListener = new YouTubePlayer.OnInitializedListener() {
             @Override
@@ -33,7 +40,23 @@ public class YouTubePlayerActivity extends YouTubeBaseActivity {
                                                 YouTubePlayer youTubePlayer, boolean b) {
                 Log.v(LOG_TAG, "onClick: Done initializing");
 
-                youTubePlayer.loadVideo(VIDEO_ID);
+                String videoId = null;
+                try {
+                    Intent intent = getIntent();
+                    String imdbId = intent.getParcelableExtra("imdb");
+
+
+
+                    Log.v(LOG_TAG, "----------------------------------imdbId: " + imdbId);
+
+                    videoId = OldFilmUtils.getVideoId(imdbId);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.v(LOG_TAG, "---------------------youtubeid: " + videoId);
+                youTubePlayer.loadVideo(videoId);
 
             }
 
@@ -52,7 +75,25 @@ public class YouTubePlayerActivity extends YouTubeBaseActivity {
             }
         });
 
-
-
     }
+
+    /*private class VideoAsyncTask extends AsyncTask<> {
+        @Override
+        protected String doInBackground(String... urls) {
+
+            String videoId = null;
+            Intent intent = getIntent();
+            String imdbId = intent.getParcelableExtra("imdb");
+            videoId = OldFilmUtils.getVideoId(imdbId);
+
+            return videoId;
+        }
+
+        @Override
+        protected void onPostExecute(List<ContentValues> films) {
+
+            Log.v(MainActivity.class.getSimpleName(), "completed writing to db");
+
+        }
+    }*/
 }
