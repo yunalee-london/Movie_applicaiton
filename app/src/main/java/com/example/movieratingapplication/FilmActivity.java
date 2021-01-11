@@ -1,32 +1,17 @@
 package com.example.movieratingapplication;
 
-import android.content.ContentUris;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.movieratingapplication.data.FilmContract;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
 
 public class FilmActivity extends AppCompatActivity {
     Uri mCurrentFilmUri;
@@ -45,8 +30,9 @@ public class FilmActivity extends AppCompatActivity {
         playFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(FilmActivity.this, YouTubePlayerActivity.class);
+                Intent intent = new Intent(FilmActivity.this, VideoActivity.class);
                 intent.putExtra("videoId", mVideoId);
+                Log.v(VideoActivity.class.getSimpleName(), "Video Intent: " + mVideoId);
                 startActivity(intent);
             }
 
@@ -99,7 +85,7 @@ public class FilmActivity extends AppCompatActivity {
     }
 
 
-    @Override
+    /*@Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu options from the res/menu/menu_catalog.xml file.
         // This adds menu items to the app bar.
@@ -134,7 +120,7 @@ public class FilmActivity extends AppCompatActivity {
                 Film filmToDelete = new Film(film.getId(), film.getImdb(), film.getTitle(), film.getImage(), film.getCountry(), film.getYear(), film.getSynopsis(), film.getRelease(), film.getDirector(), film.getDirImage(), film.getMain(), film.getMainImage(), film.getSupport(), film.getSupportImage(), film.getVideoId());
                 onButtonClickHttpDelete httpDelete = new onButtonClickHttpDelete();
                 httpDelete.sendDelete(filmToDelete);
-                /*
+                *//*
                 int rowsDeleted = getContentResolver().delete(mCurrentFilmUri, null, null);
 
                 if (rowsDeleted == 0) {
@@ -142,7 +128,7 @@ public class FilmActivity extends AppCompatActivity {
 
                 } else {
                     Toast.makeText(this, "Film deleted successfully", Toast.LENGTH_SHORT).show();
-                }*/
+                }*//*
                 finish();
         }
         return super.onOptionsItemSelected(item);
@@ -177,7 +163,7 @@ public class FilmActivity extends AppCompatActivity {
                         // TODO use your response
                     } catch (IOException e) {
                         e.printStackTrace();
-                    }
+                    }*/
                     /* try {
                         URL url = new URL(requestURL);
                         HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -208,11 +194,11 @@ public class FilmActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }*/
                 }
-            });
+            /*});
 
             thread.start();
         }
-    }
+    }*/
 
 
-}
+

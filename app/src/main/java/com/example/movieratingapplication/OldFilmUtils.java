@@ -22,15 +22,17 @@ public class OldFilmUtils {
     private static final String requestURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
     //private static final String testURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
     private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
+    private static final String TOP_RATED_FILMS_URL = "https://imdb8.p.rapidapi.com/title/get-top-rated-movies";
     private static final String filmOverviewUrl = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=";
-    private static final String VIDEO_ID_URL = "https://movies-tvshows-data-imdb.p.rapidapi.com/?type=get-movie-details&imdb=";
+    private static final String VIDEO_ID_URL = "https://imdb8.p.rapidapi.com/title/get-videos?tconst=";
     private static final String CAST_ID_URL = "https://imdb8.p.rapidapi.com/title/get-top-cast?tconst=";
     private static final String MAIN_ACT_URL = "https://imdb8.p.rapidapi.com/actors/get-bio?nconst=";
     private static final String CREW_URL = "https://imdb8.p.rapidapi.com/title/get-top-crew?tconst=";
+    //private static final String PREVIEW_URL = "https://imdb8.p.rapidapi.com/title/get-video-playback?viconst=";
 
 
 
-    public static String getVideoId (String imdbId) throws IOException, JSONException {
+    /*public static String getVideoId (String imdbId) throws IOException, JSONException {
         String jsonResponse = "";
         OkHttpClient client = new OkHttpClient();
 
@@ -50,7 +52,57 @@ public class OldFilmUtils {
 
         Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
         return videoId;
+    }*/
+
+    public static String getVideoId (String imdbId) throws IOException, JSONException {
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(VIDEO_ID_URL+imdbId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+
+        JSONObject videoResponse = new JSONObject(jsonResponse);
+        JSONObject resourceObj = videoResponse.getJSONObject("resource");
+        JSONArray videosArray = resourceObj.getJSONArray("videos");
+        JSONObject firstVideo = (JSONObject) videosArray.get(0);
+        String[] videoIdParsing = firstVideo.getString("id").split("/");
+        String videoId = videoIdParsing[2];
+
+
+        Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
+        return videoId;
     }
+
+    /*public static String getPreviewUrl (String videoId) throws IOException, JSONException {
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(PREVIEW_URL+videoId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "imdb8.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+
+        JSONObject videoResponse = new JSONObject(jsonResponse);
+        JSONObject resourceObj = videoResponse.getJSONObject("resource");
+        JSONArray previewsArray = resourceObj.getJSONArray("previews");
+        JSONObject firstPreview = (JSONObject) previewsArray.get(0);
+        String previewUrl = firstPreview.getString("playUrl");
+        Log.v(LOG_TAG, "Preview Url: " + previewUrl);
+
+        return previewUrl;
+    }*/
 
     private static String makeHttpRequest(String stringURL) throws IOException {
         String jsonResponse = "";
