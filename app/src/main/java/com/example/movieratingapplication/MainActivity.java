@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_MAIN_URL);
                 int suppUrlColumnIndex =
                         cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
+                int videoIdColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_VIDEO_ID);
 
                 //Read the film attributes from the Cursor for current film
                 long filmId = cursor.getLong(currentFilmId);
@@ -115,11 +117,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String filmDirUrl = cursor.getString(dirUrlColumnIndex);
                 String filmMainUrl = cursor.getString(mainUrlColumnIndex);
                 String filmSuppUrl = cursor.getString(suppUrlColumnIndex);
+                String filmVideoId = cursor.getString(videoIdColumnIndex);
 
 
                 Film film = new Film(filmId, filmImdb, filmTitle, filmImageUrl, filmCountry, filmYear,
                         filmSynopsis, filmRel, filmDir, filmDirUrl, filmMain, filmMainUrl,
-                        filmSupport, filmSuppUrl);
+                        filmSupport, filmSuppUrl, filmVideoId);
                 Intent intent = new Intent(MainActivity.this, FilmActivity.class);
                 intent.putExtra("film", film);
                 startActivity(intent);
@@ -158,6 +161,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 FilmContract.FilmEntry.COLUMN_SUPPORT_URL,
                 FilmContract.FilmEntry.COLUMN_SYNOPSIS,
                 FilmContract.FilmEntry.COLUMN_RELEASE,
+                FilmContract.FilmEntry.COLUMN_VIDEO_ID,
         };
 
         //This loader will execute the ContentProvider's query method on a background thread

@@ -28,7 +28,9 @@ public class FilmDbHelper extends SQLiteOpenHelper {
                 + FilmContract.FilmEntry.COLUMN_MAIN + " TEXT NOT NULL, "
                 + FilmContract.FilmEntry.COLUMN_MAIN_URL + " TEXT NOT NULL, "
                 + FilmContract.FilmEntry.COLUMN_SUPPORT + " TEXT NOT NULL, "
+                + FilmContract.FilmEntry.COLUMN_VIDEO_ID + " TEXT NOT NULL, "
                 + FilmContract.FilmEntry.COLUMN_SUPPORT_URL + " TEXT NOT NULL);";
+
         db.execSQL(SQL_CREATE_ENTRIES);
     }
 

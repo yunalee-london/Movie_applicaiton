@@ -28,6 +28,30 @@ public class OldFilmUtils {
     private static final String MAIN_ACT_URL = "https://imdb8.p.rapidapi.com/actors/get-bio?nconst=";
     private static final String CREW_URL = "https://imdb8.p.rapidapi.com/title/get-top-crew?tconst=";
 
+
+
+    public static String getVideoId (String imdbId) throws IOException, JSONException {
+        String jsonResponse = "";
+        OkHttpClient client = new OkHttpClient();
+
+        Request request = new Request.Builder()
+                .url(VIDEO_ID_URL+imdbId)
+                .get()
+                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
+                .addHeader("x-rapidapi-host", "movies-tvshows-data-imdb.p.rapidapi.com")
+                .build();
+
+        Response response = client.newCall(request).execute();
+        jsonResponse = response.body().string();
+
+        JSONObject videoResponse = new JSONObject(jsonResponse);
+
+        String videoId = videoResponse.getString("youtube_trailer_key");
+
+        Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
+        return videoId;
+    }
+
     private static String makeHttpRequest(String stringURL) throws IOException {
         String jsonResponse = "";
         OkHttpClient client = new OkHttpClient();
@@ -43,31 +67,6 @@ public class OldFilmUtils {
         jsonResponse = response.body().string();
         Log.v(LOG_TAG, "-----------------------------JsonResponse: " + jsonResponse);
         return jsonResponse;
-    }
-
-    public static String getVideoId (String filmId) throws IOException, JSONException {
-        String videoId = "";
-        String jsonResponse = "";
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(VIDEO_ID_URL+filmId)
-                .get()
-                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
-                .addHeader("x-rapidapi-host", "movies-tvshows-data-imdb.p.rapidapi.com")
-                .build();
-
-        Response response = client.newCall(request).execute();
-        jsonResponse = response.body().string();
-
-        Log.v (LOG_TAG, "----------------videoidjson: " +jsonResponse);
-
-        JSONObject video_response = new JSONObject(jsonResponse);
-
-        videoId = video_response.getString("youtube_trailer_key");
-
-        Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
-        return videoId;
     }
 
     public static ArrayList<String> mostPopularFilmIdList () {
@@ -186,9 +185,12 @@ public class OldFilmUtils {
 
             String supportPic = supportImageJson.getString("url");
 
+            String videoId = getVideoId(imdb);
+            Log.v(LOG_TAG, "VIDEO ID: "+ videoId);
+
 
             Film film = new Film(id, imdb, title, poster, country, year, synopsis, releaseDate,
-                    director, dirPic, mainAct, mainPic, supportAct, supportPic);
+                    director, dirPic, mainAct, mainPic, supportAct, supportPic, videoId);
 
 
 
@@ -206,6 +208,7 @@ public class OldFilmUtils {
             values.put(FilmContract.FilmEntry.COLUMN_MAIN_URL, mainPic);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT, supportAct);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, supportPic);
+            values.put(FilmContract.FilmEntry.COLUMN_VIDEO_ID, videoId);
             Log.v(LOG_TAG, "FilmValues : " + values.toString());
             return values;
 

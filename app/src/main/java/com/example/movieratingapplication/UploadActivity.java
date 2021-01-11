@@ -566,9 +566,10 @@ public class UploadActivity extends AppCompatActivity implements LoaderManager.L
         String month = Integer.toString(mDateField.getMonth()).trim();
         String date = Integer.toString(mDateField.getDayOfMonth()).trim();
         String releaseDate = year + "." + month + "." + date;
+        String videoId = "";
 
         Film newFilm = new Film(id, imdb, title, poster, country, year, synopsis, releaseDate,
-                director, dirPic, mainAct, mainPic, supportAct, supportPic);
+                director, dirPic, mainAct, mainPic, supportAct, supportPic, videoId);
         return newFilm;
     }
 

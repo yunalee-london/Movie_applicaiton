@@ -170,6 +170,12 @@ public class FilmProvider extends ContentProvider {
             throw new IllegalArgumentException("film requires a url");
         }
 
+        String videoId = values.getAsString(FilmContract.FilmEntry.COLUMN_VIDEO_ID);
+        if (videoId == null) {
+            throw new IllegalArgumentException("film requires a url");
+        }
+
+
 
         // Get writeable database
         SQLiteDatabase database = mDbHelper.getWritableDatabase();
