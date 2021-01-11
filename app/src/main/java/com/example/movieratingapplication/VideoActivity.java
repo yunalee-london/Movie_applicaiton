@@ -3,6 +3,7 @@ package com.example.movieratingapplication;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,15 +49,10 @@ public class VideoActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         mVideoId = intent.getStringExtra("videoId");
-        Log.v(LOG_TAG, "Video Id: ");
 
-        try {
-            mPreviewUrl = getPreviewUrl(mVideoId);
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+
+        VideoAsyncTask task = new VideoAsyncTask();
+        task.execute(mVideoId);
 
         if (savedInstanceState != null) {
             mCurrentPosition = savedInstanceState.getInt(PLAYBACK_TIME);
@@ -166,6 +162,7 @@ public class VideoActivity extends AppCompatActivity {
 
         Response response = client.newCall(request).execute();
         jsonResponse = response.body().string();
+        Log.v(LOG_TAG, "preview Jsonresponse: " + jsonResponse);
 
         JSONObject videoResponse = new JSONObject(jsonResponse);
         JSONObject resourceObj = videoResponse.getJSONObject("resource");
@@ -175,5 +172,29 @@ public class VideoActivity extends AppCompatActivity {
         Log.v(LOG_TAG, "Preview Url: " + previewUrl);
 
         return previewUrl;
+    }
+
+    public class VideoAsyncTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... previewId) {
+
+           String previewUrl = null;
+            try {
+                previewUrl = getPreviewUrl(mVideoId);
+            } catch (IOException | JSONException e) {
+                e.printStackTrace();
+            }
+
+            return previewUrl;
+        }
+
+        @Override
+        protected void onPostExecute(String previewUrl) {
+
+            Log.v(LOG_TAG, "completed fetching previewUrl: " + previewUrl);
+
+        }
+
+
     }
 }

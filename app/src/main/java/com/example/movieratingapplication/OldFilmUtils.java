@@ -125,7 +125,7 @@ public class OldFilmUtils {
         ArrayList<String> filmIdList= new ArrayList<String>();
         String jsonResponse = null;
         try {
-            jsonResponse = makeHttpRequest(allFilmIdURL);
+                jsonResponse = makeHttpRequest(allFilmIdURL);
 
             JSONArray idJsonArray = new JSONArray(jsonResponse);
 
