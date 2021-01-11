@@ -85,16 +85,7 @@ public class VideoActivity extends AppCompatActivity {
     private void initializePlayer() {
         mBufferingTextView.setVisibility(VideoView.VISIBLE);
 
-        Uri videoUri = getMedia(mPreviewUrl);
-        mVideoView.setVideoURI(videoUri);
 
-        if (mCurrentPosition > 0) {
-            mVideoView.seekTo(mCurrentPosition);
-        } else {
-            //Skipping to 1 shows the first frame of the video.
-            mVideoView.seekTo(1);
-        }
-        mVideoView.start();
 
         mVideoView.setOnPreparedListener(
                 new MediaPlayer.OnPreparedListener() {
@@ -192,6 +183,17 @@ public class VideoActivity extends AppCompatActivity {
         protected void onPostExecute(String previewUrl) {
 
             Log.v(LOG_TAG, "completed fetching previewUrl: " + previewUrl);
+
+            Uri videoUri = getMedia(previewUrl);
+            mVideoView.setVideoURI(videoUri);
+
+            if (mCurrentPosition > 0) {
+                mVideoView.seekTo(mCurrentPosition);
+            } else {
+                //Skipping to 1 shows the first frame of the video.
+                mVideoView.seekTo(1);
+            }
+            mVideoView.start();
 
         }
 

@@ -22,7 +22,7 @@
         </activity>
         <activity
             android:name=".MainActivity"
-            android:label="IMDB Most Popular Films">
+            android:label="IMDB 5 Most Popular Films">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
