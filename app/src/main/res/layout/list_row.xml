@@ -32,6 +32,10 @@
         android:textStyle="italic"
         android:textColor="@color/gray_800"
         android:padding="10dp"
+        android:shadowColor="@color/white"
+        android:shadowDx="1.5"
+        android:shadowDy="1.3"
+        android:shadowRadius="1.6"
         />
     <TextView
         android:id="@+id/title_list"
@@ -44,7 +48,7 @@
         android:textColor="@color/gray_800"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:shadowColor="#000000"
+        android:shadowColor="@color/white"
         android:shadowDx="1.5"
         android:shadowDy="1.3"
         android:shadowRadius="1.6"/>
