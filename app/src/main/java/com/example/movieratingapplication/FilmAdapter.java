@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.content.Context;
@@ -26,7 +27,8 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         View listItemView = convertView;
 
         if (listItemView == null) {
-            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent, false);
+            listItemView = LayoutInflater.from(getContext()).inflate(R.layout.list_row, parent,
+            false);
         }
         Film currentFilm = getItem(position);
 
@@ -38,11 +40,15 @@ public class FilmAdapter extends ArrayAdapter<Film> {
         textTitle.setText(currentFilm.getTitle());
 
         TextView subTitle = (TextView) listItemView.findViewById(R.id.subtitle_list);
-        subTitle.setText(currentFilm.getMain()+ " & " + currentFilm.getSupport()+", " + currentFilm.getCountry()+ ", "+currentFilm.getYear());
+        subTitle.setText(currentFilm.getMain()+ " & " + currentFilm.getSupport()+", " +
+        currentFilm.getCountry()+ ", "+currentFilm.getYear());
 
         return listItemView;
     }
 
 
 
+
+
 }
+*/

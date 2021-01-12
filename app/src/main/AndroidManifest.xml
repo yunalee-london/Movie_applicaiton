@@ -13,8 +13,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light">
         <activity
+            android:name=".YouTubePlayerActivity"
+            android:label="Play Trailer"
+            android:parentActivityName=".FilmActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".FilmActivity" />
+        </activity>
+        <activity
             android:name=".MainActivity"
-            android:label="Home">
+            android:label="IMDB 5 Most Popular Films">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -22,8 +30,15 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".FilmActivity"
+            android:label="Film Details"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+        <activity
             android:name=".UploadActivity"
-            android:label="Add a new film"
             android:parentActivityName=".MainActivity"
             android:windowSoftInputMode="stateHidden">
             <meta-data
@@ -31,36 +46,18 @@
                 android:value=".MainActivity" />
         </activity>
         <activity
-            android:name=".SearchActivity"
-            android:label="Search"
+            android:name=".VideoActivity"
+            android:label="Play trailer"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".FilmActivity"
-            android:label="Film"
-            android:parentActivityName=".MainActivity"
-            tools:ignore="Instantiatable">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <!--<activity
-            android:name=".OldFilmActivity"
-            android:label="Film_Old form"
-            android:parentActivityName=".MainActivity"
-            tools:ignore="Instantiatable">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>-->
+        <provider
+            android:name=".data.FilmProvider"
+            android:authorities="com.example.movieratingapplication"
+            android:exported="false" />
     </application>
 
 </manifest>

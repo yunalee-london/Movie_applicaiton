@@ -1,3 +1,4 @@
+/*
 package com.example.movieratingapplication;
 
 import android.text.TextUtils;
@@ -20,7 +21,7 @@ import java.util.List;
 
 public class QueryUtil {
     private static final String LOG_TAG = QueryUtil.class.getSimpleName();
-    private static final String requestURL = "https://my-movie-rating.herokuapp.com/";
+    private static final String requestURL = "http://10.0.2.2:3001/";
 
     private static URL createUrl(String stringUrl) {
         URL url = null;
@@ -32,9 +33,9 @@ public class QueryUtil {
         return url;
     }
 
-    /**
-     * Make an HTTP request to the given URL and return a String as the response.
-     */
+
+
+
     private static String makeHttpRequest(URL url) throws IOException {
         String jsonResponse = "";
 
@@ -47,8 +48,8 @@ public class QueryUtil {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(10000);
+            urlConnection.setConnectTimeout(15000);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
@@ -61,7 +62,7 @@ public class QueryUtil {
                 Log.e(LOG_TAG, "Error response code: " + urlConnection.getResponseCode());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the earthquake JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the film JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -76,14 +77,13 @@ public class QueryUtil {
         return jsonResponse;
     }
 
-    /**
-     * Convert the {@link InputStream} into a String which contains the
-     * whole JSON response from the server.
-     */
+
+
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder output = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream,
+            StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
             while (line != null) {
@@ -125,44 +125,45 @@ public class QueryUtil {
             // If an error is thrown when executing any of the above statements in the "try" block,
             // catch the exception here, so the app doesn't crash. Print a log message
             // with the message from the exception.
-            Log.e("QueryUtils", "Problem parsing the film JSON results", e);
+            Log.e("QueryUtil", "Problem parsing the film JSON results", e);
         }
 
         // Return the list of films
-        Log.v("------------------------------QueryUtils", "films: " + films);
+        Log.v("------------------------------QueryUtil", "films: " + films);
         return films;
     }
 
     private static Film parsingJsonObj (JSONObject currentFilm) {
 
         try {
+            long id =0;
+
             String title = currentFilm.getString("title");
 
             String imageUrl = currentFilm.getString("image");
 
             String country = currentFilm.getString("country");
 
-            int year = currentFilm.getInt("year");
+            String year = currentFilm.getString("year");
 
             String synopsis = currentFilm.getString("synopsis");
 
             String release = currentFilm.getString("release");
 
-            JSONArray castCrew = currentFilm.getJSONArray("cast_crew");
+            String director = currentFilm.getString("director");
 
-            String director = castCrew.getJSONObject(0).getString("director");
+            String dirImage = currentFilm.getString("dirImage");
 
-            String dirImage = castCrew.getJSONObject(0).getString("dirImage");
+            String mainAct = currentFilm.getString("cast1");
 
-            String mainAct = castCrew.getJSONObject(0).getString("cast1");
+            String mainImage = currentFilm.getString("cast1Image");
 
-            String mainImage = castCrew.getJSONObject(0).getString("cast1Image");
+            String supportAct = currentFilm.getString("cast2");
 
-            String supportAct = castCrew.getJSONObject(0).getString("cast2");
+            String supportImage = currentFilm.getString("cast2Image");
 
-            String supportImage = castCrew.getJSONObject(0).getString("cast2Image");
-
-            Film film = new Film(title, imageUrl, country, year, synopsis, release, director, dirImage, mainAct, mainImage, supportAct, supportImage);
+            Film film = new Film(id, title, imageUrl, country, year, synopsis, release, director,
+             dirImage, mainAct, mainImage, supportAct, supportImage);
 
             return film;
 
@@ -194,3 +195,4 @@ public class QueryUtil {
     }
 
 }
+*/

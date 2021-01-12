@@ -5,11 +5,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/gray_200"
     tools:context=".UploadActivity">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
+        android:padding="5dp"
         tools:context=".UploadActivity">
 
         <EditText
@@ -65,17 +67,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/url"
+            android:hint="Poster URL"
             android:textStyle="italic"
-            android:text="https://upload.wikimedia.org/wikipedia/commons/thumb/6/6b/Picture_icon_BLACK.svg/1200px-Picture_icon_BLACK.svg.png"
             android:inputType="textMultiLine"/>
         <EditText
             android:id="@+id/dir_url_field"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/url"
-            android:text="https://i.pinimg.com/originals/b4/00/85/b400851a6b07f8877a9236f275bd8d4f.jpg"
+            android:hint="Director Image URL"
             android:textStyle="italic"
             android:inputType="textMultiLine"/>
         <EditText
@@ -83,8 +83,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/url"
-            android:text="https://i.pinimg.com/originals/b4/00/85/b400851a6b07f8877a9236f275bd8d4f.jpg"
+            android:hint="Main Act Image URL"
             android:textStyle="italic"
             android:inputType="textMultiLine"/>
         <EditText
@@ -92,8 +91,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:hint="@string/url"
-            android:text="https://i.pinimg.com/originals/b4/00/85/b400851a6b07f8877a9236f275bd8d4f.jpg"
+            android:hint="Support Act Image URL"
             android:textStyle="italic"
             android:inputType="textMultiLine"/>
         <TextView
@@ -115,11 +113,11 @@
             android:paddingTop="10dp"
             android:layout_gravity="center_horizontal"
             android:datePickerMode="calendar"/>
-        <Button
+        <!--<Button
             android:id="@+id/add_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Submit" />
+            android:text="Submit" />-->
       </LinearLayout>
 </ScrollView>

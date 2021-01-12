@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">Movie Rating Application</string>
+    <string name="app_name">Movie Application</string>
     <string name="title_activity_library">LibraryActivity</string>
     <!--
     This string is used for square devices and overridden by hello_world in
     values-round/strings.xml for round devices.
     -->
-    <string name="hello_world">Hello Square World!</string>
+
     <string name="title_activity_search">SearchActivity</string>
     <string name="title_activity_upload">UploadActivity</string>
     <string name="title">Title</string>
@@ -14,4 +14,17 @@
     <string name="poster">Poster</string>
     <string name="url">URL</string>
     <string name="country">Country</string>
+    <string name="editor_insert_film_successful">Film saved</string>
+    <string name="editor_insert_film_failed">Error with saving film</string>
+    <string name="empty_view_title_text">Ready...Action!!</string>
+    <string name="empty_view_subtitle_text">Get started by adding a film</string>
+    <string name="unsaved_changes">Changes have not saved.</string>
+    <string name="discard">Discard</string>
+    <string name="keep_editing"> Keep editing</string>
+    <string name="delete_dialog_message"> Delete changes?</string>
+    <string name="delete">Delete</string>
+    <string name="cancel">Cancel</string>
+    <string name="searchable">searchable</string>
+    <string name="film_title_search">Film Title</string>
+
 </resources>

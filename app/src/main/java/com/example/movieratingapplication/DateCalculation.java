@@ -1,7 +1,7 @@
 package com.example.movieratingapplication;
 
-import java.time.*;
-import java.util.*;
+import java.time.LocalDate;
+import java.time.Period;
 
 class DateCalculation {
 
@@ -9,41 +9,46 @@ class DateCalculation {
     static String findDifference(LocalDate rel_date, LocalDate today) {
         if (rel_date.isEqual(today)) {
             return "Time to Premiere: Today";
-        }
-        else if (rel_date.isBefore(today)) {
+        } else if (rel_date.isBefore(today)) {
             Period diff = Period.between(rel_date, today);
-            if (diff.getYears() ==0 && diff.getMonths()==0) {
+            if (diff.getYears() == 0 && diff.getMonths() == 0) {
                 return "Premiered: " + diff.getDays() + " days ago.";
-            } else if (diff.getMonths()==0 && diff.getDays()==0) {
+            } else if (diff.getMonths() == 0 && diff.getDays() == 0) {
                 return "Premiered: " + diff.getYears() + " years ago.";
-            } else if (diff.getYears()==0 && diff.getDays()==0) {
+            } else if (diff.getYears() == 0 && diff.getDays() == 0) {
                 return "Premiered: " + diff.getMonths() + " months ago.";
             } else if (diff.getYears() == 0) {
-                return "Premiered: " + diff.getMonths() + " months, " + diff.getDays() + " days ago.";
-            } else if (diff.getMonths() ==0) {
+                return "Premiered: " + diff.getMonths() + " months, " + diff.getDays() + " days " +
+                        "ago.";
+            } else if (diff.getMonths() == 0) {
                 return "Premiered: " + diff.getYears() + " years, " + diff.getDays() + " days ago.";
             } else if (diff.getDays() == 0) {
-                return "Premiered: " + diff.getYears() + " years, " + diff.getMonths() + " months ago.";
+                return "Premiered: " + diff.getYears() + " years, " + diff.getMonths() + " months" +
+                        " ago.";
             } else {
-                return "Premiered: " + diff.getYears() + " years, " + diff.getMonths() + " months, " + diff.getDays() + " days ago.";
+                return "Premiered: " + diff.getYears() + " years, " + diff.getMonths() + " " +
+                        "months, " + diff.getDays() + " days ago.";
             }
-        }
-        else {
+        } else {
             Period diff = Period.between(today, rel_date);
-            if (diff.getYears() ==0 && diff.getMonths()==0) {
+            if (diff.getYears() == 0 && diff.getMonths() == 0) {
                 return "Time to Premiere: " + diff.getDays() + " days left.";
-            } else if (diff.getMonths()==0 && diff.getDays()==0) {
+            } else if (diff.getMonths() == 0 && diff.getDays() == 0) {
                 return "Time to Premiere: " + diff.getYears() + " years left.";
-            } else if (diff.getYears()==0 && diff.getDays()==0) {
+            } else if (diff.getYears() == 0 && diff.getDays() == 0) {
                 return "Time to Premiere: " + diff.getMonths() + " months left.";
             } else if (diff.getYears() == 0) {
-                return "Time to Premiere: " + diff.getMonths() + " months, " + diff.getDays() + " days left.";
-            } else if (diff.getMonths() ==0) {
-                return "Time to Premiere: " + diff.getYears() + " years, " + diff.getDays() + " days left.";
+                return "Time to Premiere: " + diff.getMonths() + " months, " + diff.getDays() +
+                        " days left.";
+            } else if (diff.getMonths() == 0) {
+                return "Time to Premiere: " + diff.getYears() + " years, " + diff.getDays() + " " +
+                        "days left.";
             } else if (diff.getDays() == 0) {
-                return "Time to Premiere: " + diff.getYears() + " years, " + diff.getMonths() + " months left.";
+                return "Time to Premiere: " + diff.getYears() + " years, " + diff.getMonths() +
+                        " months left.";
             } else {
-                return "Time to Premiere: " + diff.getYears() + " years, " + diff.getMonths() + " months, " + diff.getDays() + " days left.";
+                return "Time to Premiere: " + diff.getYears() + " years, " + diff.getMonths() +
+                        " months, " + diff.getDays() + " days left.";
             }
         }
     }
