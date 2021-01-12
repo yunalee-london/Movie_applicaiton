@@ -19,11 +19,13 @@ public class Film implements Parcelable {
     private final String support;
     private final String supportImage;
     private final String videoId;
+    private final String videoUrl;
 
 
     public Film(long id, String imdb, String filmTitle, String imageUrl, String relCountry, String relYear,
                 String story, String relDate, String director, String dirPhoto, String mainAct,
-                String mainPhoto, String supportAct, String supportPhoto, String videoId) {
+                String mainPhoto, String supportAct, String supportPhoto, String videoId,
+                String videoUrl) {
         this.id = id;
         this.imdb = imdb;
         title = filmTitle;
@@ -39,6 +41,7 @@ public class Film implements Parcelable {
         support = supportAct;
         supportImage = supportPhoto;
         this.videoId = videoId;
+        this.videoUrl = videoUrl;
     }
 
     protected Film(Parcel in) {
@@ -57,6 +60,7 @@ public class Film implements Parcelable {
         support = in.readString();
         supportImage = in.readString();
         videoId = in.readString();
+        videoUrl = in.readString();
 
     }
 
@@ -102,6 +106,8 @@ public class Film implements Parcelable {
 
     public String getVideoId() {return videoId;}
 
+    public String getVideoUrl() {return videoUrl;}
+
 
     @Override
     public int describeContents() {
@@ -125,5 +131,6 @@ public class Film implements Parcelable {
         dest.writeString(support);
         dest.writeString(supportImage);
         dest.writeString(videoId);
+        dest.writeString(videoUrl);
     }
 }

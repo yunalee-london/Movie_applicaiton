@@ -20,7 +20,6 @@ import androidx.loader.content.Loader;
 
 import com.example.movieratingapplication.data.FilmContract;
 import com.example.movieratingapplication.data.FilmDbHelper;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import org.json.JSONException;
 
@@ -48,14 +47,14 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, UploadActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
         //Find the ListView which will be populated with the film data
         ListView filmListView = (ListView) findViewById(R.id.list_view);
 
@@ -101,6 +100,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                         cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_SUPPORT_URL);
                 int videoIdColumnIndex =
                         cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_VIDEO_ID);
+                int videoUrlColumnIndex =
+                        cursor.getColumnIndex(FilmContract.FilmEntry.COLUMN_VIDEO_URL);
+
 
                 //Read the film attributes from the Cursor for current film
                 long filmId = cursor.getLong(currentFilmId);
@@ -118,11 +120,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 String filmMainUrl = cursor.getString(mainUrlColumnIndex);
                 String filmSuppUrl = cursor.getString(suppUrlColumnIndex);
                 String filmVideoId = cursor.getString(videoIdColumnIndex);
+                String filmVideoUrl = cursor.getString(videoUrlColumnIndex);
 
 
                 Film film = new Film(filmId, filmImdb, filmTitle, filmImageUrl, filmCountry, filmYear,
                         filmSynopsis, filmRel, filmDir, filmDirUrl, filmMain, filmMainUrl,
-                        filmSupport, filmSuppUrl, filmVideoId);
+                        filmSupport, filmSuppUrl, filmVideoId, filmVideoUrl);
                 Intent intent = new Intent(MainActivity.this, FilmActivity.class);
                 intent.putExtra("film", film);
                 startActivity(intent);
@@ -162,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
                 FilmContract.FilmEntry.COLUMN_SYNOPSIS,
                 FilmContract.FilmEntry.COLUMN_RELEASE,
                 FilmContract.FilmEntry.COLUMN_VIDEO_ID,
+                FilmContract.FilmEntry.COLUMN_VIDEO_URL,
         };
 
         //This loader will execute the ContentProvider's query method on a background thread

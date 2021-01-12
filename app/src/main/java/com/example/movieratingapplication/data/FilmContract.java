@@ -56,6 +56,7 @@ public class FilmContract {
         public final static String COLUMN_SUPPORT = "support";
         public final static String COLUMN_SUPPORT_URL = "supportUrl";
         public final static String COLUMN_VIDEO_ID = "videoId";
+        public final static String COLUMN_VIDEO_URL = "videoUrl";
 
     }
 }

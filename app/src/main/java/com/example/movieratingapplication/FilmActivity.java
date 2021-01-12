@@ -17,6 +17,7 @@ public class FilmActivity extends AppCompatActivity {
     Uri mCurrentFilmUri;
     private String mCurrentFilmImdb;
     private String mVideoId;
+    private String mVideoUrl;
     private static final String requestURL = "http://10.0.2.2:3001/";
 
     private static final String LOG_TAG = FilmActivity.class.getSimpleName();
@@ -31,8 +32,8 @@ public class FilmActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(FilmActivity.this, VideoActivity.class);
-                intent.putExtra("videoId", mVideoId);
-                Log.v(VideoActivity.class.getSimpleName(), "Video Intent: " + mVideoId);
+                intent.putExtra("videoUrl", mVideoUrl);
+                Log.v(VideoActivity.class.getSimpleName(), "Video Intent: " + mVideoUrl);
                 startActivity(intent);
             }
 
@@ -44,6 +45,8 @@ public class FilmActivity extends AppCompatActivity {
         mCurrentFilmImdb = film.getImdb();
 
         mVideoId = film.getVideoId();
+
+        mVideoUrl = film.getVideoUrl();
 
         TextView titleTextView = findViewById(R.id.title);
         titleTextView.setText(film.getTitle());

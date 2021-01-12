@@ -175,6 +175,11 @@ public class FilmProvider extends ContentProvider {
             throw new IllegalArgumentException("film requires a url");
         }
 
+        String videoUrl = values.getAsString(FilmContract.FilmEntry.COLUMN_VIDEO_URL);
+        if (videoUrl == null) {
+            throw new IllegalArgumentException("film requires a preview url");
+        }
+
 
 
         // Get writeable database

@@ -28,31 +28,9 @@ public class OldFilmUtils {
     private static final String CAST_ID_URL = "https://imdb8.p.rapidapi.com/title/get-top-cast?tconst=";
     private static final String MAIN_ACT_URL = "https://imdb8.p.rapidapi.com/actors/get-bio?nconst=";
     private static final String CREW_URL = "https://imdb8.p.rapidapi.com/title/get-top-crew?tconst=";
-    //private static final String PREVIEW_URL = "https://imdb8.p.rapidapi.com/title/get-video-playback?viconst=";
+    private static final String PREVIEW_URL = "https://imdb8.p.rapidapi.com/title/get-video-playback?viconst=";
 
 
-
-    /*public static String getVideoId (String imdbId) throws IOException, JSONException {
-        String jsonResponse = "";
-        OkHttpClient client = new OkHttpClient();
-
-        Request request = new Request.Builder()
-                .url(VIDEO_ID_URL+imdbId)
-                .get()
-                .addHeader("x-rapidapi-key", "86ab38246fmshded8bcac8ff0c75p14b81cjsn8feeaa8ce1aa")
-                .addHeader("x-rapidapi-host", "movies-tvshows-data-imdb.p.rapidapi.com")
-                .build();
-
-        Response response = client.newCall(request).execute();
-        jsonResponse = response.body().string();
-
-        JSONObject videoResponse = new JSONObject(jsonResponse);
-
-        String videoId = videoResponse.getString("youtube_trailer_key");
-
-        Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
-        return videoId;
-    }*/
 
     public static String getVideoId (String imdbId) throws IOException, JSONException {
         String jsonResponse = "";
@@ -76,11 +54,11 @@ public class OldFilmUtils {
         String videoId = videoIdParsing[2];
 
 
-        Log.v(LOG_TAG, "-------------------------------VideoId: " + videoId);
+        Log.v(LOG_TAG, "Get Video Id: " + videoId);
         return videoId;
     }
 
-    /*public static String getPreviewUrl (String videoId) throws IOException, JSONException {
+    public static String getPreviewUrl (String videoId) throws IOException, JSONException {
         String jsonResponse = "";
         OkHttpClient client = new OkHttpClient();
 
@@ -99,10 +77,10 @@ public class OldFilmUtils {
         JSONArray previewsArray = resourceObj.getJSONArray("previews");
         JSONObject firstPreview = (JSONObject) previewsArray.get(0);
         String previewUrl = firstPreview.getString("playUrl");
-        Log.v(LOG_TAG, "Preview Url: " + previewUrl);
+        Log.v(LOG_TAG, "Get Preview Url: " + previewUrl);
 
         return previewUrl;
-    }*/
+    }
 
     private static String makeHttpRequest(String stringURL) throws IOException {
         String jsonResponse = "";
@@ -117,7 +95,6 @@ public class OldFilmUtils {
 
         Response response = client.newCall(request).execute();
         jsonResponse = response.body().string();
-        Log.v(LOG_TAG, "-----------------------------JsonResponse: " + jsonResponse);
         return jsonResponse;
     }
 
@@ -136,7 +113,7 @@ public class OldFilmUtils {
         } catch (IOException | JSONException e) {
             Log.e(LOG_TAG, "Problem making the HTTP request.", e);
         }
-        Log.v(LOG_TAG, "--------------------------Film Id Only Array: " + filmIdList);
+        Log.v(LOG_TAG, "Get Most Popular Film Id: " + filmIdList);
         return filmIdList;
     }
 
@@ -173,7 +150,7 @@ public class OldFilmUtils {
         }
 
         // Return the list of films
-        Log.v("------------------------------OldFilmUtils", "films: " + filmValues);
+        Log.v(LOG_TAG, "Film Values: " + filmValues);
         return filmValues;
     }
 
@@ -183,8 +160,6 @@ public class OldFilmUtils {
             String[] idParsing = currentFilm.getString("id").split("/");
 
             String imdb = idParsing[2];
-
-            Log.v(LOG_TAG, "imdb: " + imdb);
 
             int id = 0;
 
@@ -238,11 +213,13 @@ public class OldFilmUtils {
             String supportPic = supportImageJson.getString("url");
 
             String videoId = getVideoId(imdb);
-            Log.v(LOG_TAG, "VIDEO ID: "+ videoId);
+
+            String videoUrl = getPreviewUrl(videoId);
+            Log.v(LOG_TAG, "Parsed PREVIEW ID: " + videoUrl);
 
 
             Film film = new Film(id, imdb, title, poster, country, year, synopsis, releaseDate,
-                    director, dirPic, mainAct, mainPic, supportAct, supportPic, videoId);
+                    director, dirPic, mainAct, mainPic, supportAct, supportPic, videoId, videoUrl);
 
 
 
@@ -261,6 +238,7 @@ public class OldFilmUtils {
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT, supportAct);
             values.put(FilmContract.FilmEntry.COLUMN_SUPPORT_URL, supportPic);
             values.put(FilmContract.FilmEntry.COLUMN_VIDEO_ID, videoId);
+            values.put(FilmContract.FilmEntry.COLUMN_VIDEO_URL, videoUrl);
             Log.v(LOG_TAG, "FilmValues : " + values.toString());
             return values;
 
