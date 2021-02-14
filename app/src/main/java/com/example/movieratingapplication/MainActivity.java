@@ -192,7 +192,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         // by checking if mCurrentFilmUri is null or not
 
 
-        Uri newUri = getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
+        getContentResolver().insert(FilmContract.FilmEntry.CONTENT_URI, values);
 
 
     }

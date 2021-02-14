@@ -29,7 +29,8 @@ public class OldFilmUtils {
     private static final String MAIN_ACT_URL = "https://imdb8.p.rapidapi.com/actors/get-bio?nconst=";
     private static final String CREW_URL = "https://imdb8.p.rapidapi.com/title/get-top-crew?tconst=";
     private static final String PREVIEW_URL = "https://imdb8.p.rapidapi.com/title/get-video-playback?viconst=";
-
+    private static final String DEFAULT_IMAGE =
+            "https://image.flaticon.com/icons/png/512/229/229740.png";
 
 
     public static String getVideoId (String imdbId) throws IOException, JSONException {
@@ -190,9 +191,13 @@ public class OldFilmUtils {
 
             String director = directorObj.getString("name");
 
-            JSONObject imageDirObj = directorObj.getJSONObject("image");
-
-            String dirPic = imageDirObj.getString("url");
+            String dirPic = "";
+            if (directorObj.has("image")) {
+                JSONObject imageDirObj = directorObj.getJSONObject("image");
+                dirPic = imageDirObj.getString("url");
+            } else {
+                dirPic = DEFAULT_IMAGE;
+            }
 
 
             JSONObject mainJson = getMainActJson(imdb);
