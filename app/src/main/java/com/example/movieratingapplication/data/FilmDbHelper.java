@@ -25,7 +25,7 @@ public class FilmDbHelper extends SQLiteOpenHelper {
                     + FilmContract.FilmEntry.COLUMN_IMAGE_URL
                     + " TEXT NOT NULL, "
                     + FilmContract.FilmEntry.COLUMN_YEAR
-                    + " TEXT NOT NULL, "
+                    + " TEXT NOT NULL DEFAULT '', "
                     + FilmContract.FilmEntry.COLUMN_SYNOPSIS
                     + " TEXT NOT NULL, "
                     + FilmContract.FilmEntry.COLUMN_RELEASE

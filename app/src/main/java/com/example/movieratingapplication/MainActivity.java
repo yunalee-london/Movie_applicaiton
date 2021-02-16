@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -35,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     private static final String testURL = "https://imdb8.p.rapidapi.com/title/get-overview-details?tconst=tt7126948";
     private static final String allFilmIdURL = "https://imdb8.p.rapidapi.com/title/get-most-popular-movies";
 
+    private ProgressBar spinner;
     private FilmDbHelper filmDbHelper;
     //initialize the loader
     private static final int FILM_LOADER = 0;
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        FilmAsyncTask task = new FilmAsyncTask();
+        task.execute(requestURL);
+
         /*FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,9 +63,12 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         //Find the ListView which will be populated with the film data
         ListView filmListView = (ListView) findViewById(R.id.list_view);
 
+        spinner = (ProgressBar)findViewById(R.id.progressBar1);
+        filmListView.setEmptyView(spinner);
+
         //Find and set empty view on the Listview, so that it only shows when the list has 0 item.
-        View emptyView = findViewById(R.id.empty_view);
-        filmListView.setEmptyView((emptyView));
+//        View emptyView = findViewById(R.id.empty_view);
+//        filmListView.setEmptyView((emptyView));
 
 
         //Setup the Adapter to create a list item for each row of film data in the cursor.
@@ -68,9 +76,10 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
         mCursorAdapter = new FilmCursorAdapter(this, null);
         filmListView.setAdapter(mCursorAdapter);
 
-
         //Kick off the loader
         LoaderManager.getInstance(this).initLoader(FILM_LOADER, null, this);
+
+
 
         filmListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -135,14 +144,6 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
 
     }
 
-    @Override
-    protected void onPostResume() {
-        super.onPostResume();
-        FilmAsyncTask task = new FilmAsyncTask();
-        task.execute(requestURL);
-
-    }
-
 
     @NonNull
     @Override
@@ -183,6 +184,7 @@ public class MainActivity extends AppCompatActivity implements LoaderManager.Loa
     public void onLoaderReset(@NonNull Loader<Cursor> loader) {
         //callback called when the data needs to be deleted
         mCursorAdapter.swapCursor(null);
+        spinner.setVisibility(View.INVISIBLE);
 
     }
 

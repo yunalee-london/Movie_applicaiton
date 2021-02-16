@@ -172,15 +172,19 @@ public class OldFilmUtils {
 
             String poster = imageJsonObj.getString("url");
 
-            JSONObject certificates = currentFilm.getJSONObject("certificates");
-
-            String country = certificates.keys().next();
+            String country = "";
+            if (currentFilm.has("certificates")) {
+                JSONObject certificates = currentFilm.getJSONObject("certificates");
+                country = certificates.keys().next();
+            }
 
             String year = titleJsonObj.getString("year");
 
-            JSONObject plotOutline = currentFilm.getJSONObject("plotOutline");
-
-            String synopsis = plotOutline.getString("text");
+            String synopsis = "SYNOPSIS WILL BE UPDATED SOON";
+            if (currentFilm.has("plotOutline")) {
+                JSONObject plotOutline = currentFilm.getJSONObject("plotOutline");
+                synopsis = plotOutline.getString("text");
+            }
 
             String releaseDate = currentFilm.getString("releaseDate");
 
